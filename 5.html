@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAROT JOURNEY – Hành Trình Khám Phá Tarot</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        doraBlue: '#1e40af',
+                        doraSky: '#3b82f6',
+                        doraLight: '#eff6ff',
+                        lavenderBg: '#f5f3ff',
+                        purpleDark: '#2e1065',
+                        purpleAccent: '#7c3aed',
+                        pinkPastel: '#fbcfe8',
+                        yellowCream: '#fef3c7',
+                        cardBg: '#ffffff'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles & animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a8a 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(124, 58, 237, 0.8); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-glow { animation: pulseGlow 3s ease-in-out infinite; }
+        .star-sparkle { animation: twinkle 2s infinite ease-in-out; }
+
+        /* Card Flip Styles */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e1b4b; }
+        ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6d28d9; }
+
+        .glass-panel {
+            background: rgba(30, 27, 75, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-purpleDark text-slate-100 relative selection:bg-purple-500 selection:text-white">
+
+    <div id="stars-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Dynamic stars inserted via JS -->
+    </div>
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-purple-500/20 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#home" onclick="switchTab('home')" class="flex items-center space-x-3 group cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-doraSky to-purpleAccent flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+                    <i class="fa-solid fa-crystal-ball text-2xl text-yellowCream"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-yellowCream via-pinkPastel to-doraSky bg-clip-text text-transparent font-serif">TAROT JOURNEY</span>
+                    <span class="block text-xs text-slate-400 font-medium">Bản thảo Doraemon 🔮</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                <button onclick="switchTab('home')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition active-tab text-yellowCream" data-target="home">Trang Chủ</button>
+                <button onclick="switchTab('basics')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition" data-target="basics">Tarot Cơ Bản</button>
+                <button onclick="switchTab('cards')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition" data-target="cards">78 Lá Bài</button>
+                <button onclick="switchTab('spreads')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition" data-target="spreads">Cách Trải Bài</button>
+                <button onclick="switchTab('online-reading')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition text-pinkPastel" data-target="online-reading"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Trải Bài Online</button>
+                <button onclick="switchTab('quiz')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition" data-target="quiz">Quiz</button>
+                <button onclick="switchTab('journal')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition" data-target="journal">Nhật Ký</button>
+                <button onclick="switchTab('progress')" class="nav-btn px-3 py-2 rounded-xl hover:bg-white/10 transition" data-target="progress">Tiến Độ</button>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="hidden sm:flex items-center space-x-3">
+                <button onclick="switchTab('online-reading')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-semibold shadow-lg hover:shadow-purple-500/50 hover:scale-105 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>Rút Bài Ngay</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl p-2 rounded-xl hover:bg-white/10 transition text-white">
+                <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-panel border-t border-purple-500/20 px-4 pt-2 pb-6 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">Trang Chủ</button>
+            <button onclick="switchTab('basics'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">Tarot Cơ Bản</button>
+            <button onclick="switchTab('cards'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">78 Lá Bài</button>
+            <button onclick="switchTab('spreads'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">Cách Trải Bài</button>
+            <button onclick="switchTab('online-reading'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition text-pinkPastel">Trải Bài Online</button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">Quiz</button>
+            <button onclick="switchTab('journal'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">Nhật Ký</button>
+            <button onclick="switchTab('progress'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition">Tiến Độ</button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+
+        <!-- 1. TRANG CHỦ (HOME TAB) -->
+        <section id="tab-home" class="tab-content active space-y-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-10">
+                <div class="space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-purple-500/20 border border-purple-400/30 text-yellowCream text-sm font-medium animate-pulse">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>Chào mừng bạn đến với hành trình Tarot cùng Doraemon!</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight font-serif leading-tight">
+                        KHÁM PHÁ <br><span class="bg-gradient-to-r from-yellowCream via-pinkPastel to-doraSky bg-clip-text text-transparent">THẾ GIỚI TAROT</span>
+                    </h1>
+                    <p class="text-lg text-slate-300 max-w-xl mx-auto lg:mx-0">
+                        "Mỗi lá bài là một câu chuyện – mỗi trải bài là một hành trình khám phá bản thân." Từ lá bài đầu tiên đến những trải bài định hướng cho riêng bạn.
+                    </p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                        <button onclick="switchTab('basics')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold shadow-xl hover:scale-105 transition flex items-center space-x-3">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>BẮT ĐẦU HỌC</span>
+                        </button>
+                        <button onclick="switchTab('online-reading')" class="px-8 py-4 rounded-2xl glass-panel text-yellowCream font-bold border border-yellowCream/30 hover:bg-white/10 hover:scale-105 transition flex items-center space-x-3">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>TRẢI BÀI ONLINE</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mascot & Card Illustration -->
+                <div class="relative flex justify-center">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-doraSky to-purple-600 rounded-3xl blur-2xl opacity-30 animate-glow"></div>
+                    <div class="relative glass-panel p-8 rounded-3xl border border-purple-500/40 w-full max-w-md text-center space-y-6 animate-float">
+                        <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-doraBlue to-doraSky flex items-center justify-center shadow-2xl border-4 border-yellowCream">
+                            <i class="fa-solid fa-cat text-6xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-yellowCream">Doraemon & Túi Thần Kỳ Tarot</h3>
+                            <p class="text-sm text-slate-300 mt-2">"Đừng lo Nobita, Tarot giúp chúng ta nhìn nhận lại góc độ vấn đề chứ không quyết định thay tương lai đâu nhé!"</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 pt-2">
+                            <div class="p-3 rounded-xl bg-purple-900/50 border border-purple-500/20">
+                                <span class="block text-2xl font-bold text-doraSky">78</span>
+                                <span class="text-xs text-slate-400">Lá Bài</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-purple-900/50 border border-purple-500/20">
+                                <span class="block text-2xl font-bold text-pinkPastel">4</span>
+                                <span class="text-xs text-slate-400">Kiểu Trải</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-purple-900/50 border border-purple-500/20">
+                                <span class="block text-2xl font-bold text-yellowCream">100%</span>
+                                <span class="text-xs text-slate-400">Tương Tác</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Feature Highlights -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
+                <div onclick="switchTab('cards')" class="glass-panel p-6 rounded-2xl hover:border-doraSky transition cursor-pointer group space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-600/30 flex items-center justify-center text-doraSky text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-yellowCream">Khám Phá 78 Lá Bài</h3>
+                    <p class="text-sm text-slate-300">Hệ thống dữ liệu đầy đủ 22 Major Arcana và 56 Minor Arcana với ý nghĩa xuôi/ngược chi tiết.</p>
+                </div>
+                <div onclick="switchTab('spreads')" class="glass-panel p-6 rounded-2xl hover:border-pinkPastel transition cursor-pointer group space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-600/30 flex items-center justify-center text-pinkPastel text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-chess-board"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-yellowCream">Học Cách Trải Bài</h3>
+                    <p class="text-sm text-slate-300">Làm chủ các kiểu trải bài từ 1 lá, 3 lá, 5 lá cho đến sơ đồ Celtic Cross 10 lá phức tạp.</p>
+                </div>
+                <div onclick="switchTab('online-reading')" class="glass-panel p-6 rounded-2xl hover:border-yellowCream transition cursor-pointer group space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-600/30 flex items-center justify-center text-yellowCream text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-yellowCream">Trải Bài Tương Tác Online</h3>
+                    <p class="text-sm text-slate-300">Chọn chủ đề Tình yêu, Sự nghiệp hoặc Học tập và thực hiện rút bài trực tiếp với hiệu ứng 3D.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TAROT CƠ BẢN (BASICS TAB) -->
+        <section id="tab-basics" class="tab-content hidden space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <h2 class="text-3xl sm:text-4xl font-bold font-serif text-yellowCream">Tarot Là Gì?</h2>
+                <p class="text-slate-300 text-base sm:text-lg">Tarot là một hệ thống gồm 78 lá bài, thường được sử dụng như một công cụ biểu tượng để suy ngẫm, kể chuyện và khám phá góc nhìn về một vấn đề trong cuộc sống.</p>
+            </div>
+
+            <!-- Structure Breakdown -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-panel p-8 rounded-3xl space-y-4 border-l-4 border-doraSky">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl font-bold text-doraSky">Major Arcana</h3>
+                        <span class="px-3 py-1 rounded-full bg-doraSky/20 text-doraSky text-xs font-bold">22 Lá</span>
+                    </div>
+                    <p class="text-slate-300 text-sm">Các chủ đề lớn, những bài học tâm linh quan trọng và các giai đoạn chuyển biến lớn trong cuộc đời từ số 0 (The Fool) đến 21 (The World).</p>
+                    <ul class="space-y-2 text-sm text-slate-300 pt-2">
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Phản ánh thông điệp sâu sắc tổng thể.</li>
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Đại diện cho những cột mốc lớn.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl space-y-4 border-l-4 border-pinkPastel">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl font-bold text-pinkPastel">Minor Arcana</h3>
+                        <span class="px-3 py-1 rounded-full bg-pinkPastel/20 text-pinkPastel text-xs font-bold">56 Lá</span>
+                    </div>
+                    <p class="text-slate-300 text-sm">Những trải nghiệm, tình huống và năng lượng thường nhật trong đời sống hàng ngày, chia thành 4 bộ: Wands, Cups, Swords, Pentacles.</p>
+                    <ul class="space-y-2 text-sm text-slate-300 pt-2">
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Chi tiết hóa các vấn đề cụ thể.</li>
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Phản ánh cảm xúc, hành động, suy nghĩ, vật chất.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 4 Suits of Minor Arcana -->
+            <div class="space-y-6 pt-6">
+                <h3 class="text-2xl font-bold text-center text-yellowCream font-serif">4 Bộ Trong Minor Arcana</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-3">
+                        <div class="text-3xl text-orange-400">🔥 Wands (Gậy)</div>
+                        <p class="text-xs text-slate-400">Chủ đề:</p>
+                        <p class="text-sm text-slate-200">Hành động, Đam mê, Năng lượng, Sáng tạo, Mục tiêu.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3">
+                        <div class="text-3xl text-blue-400">💧 Cups (Cốc)</div>
+                        <p class="text-xs text-slate-400">Chủ đề:</p>
+                        <p class="text-sm text-slate-200">Cảm xúc, Tình yêu, Mối quan hệ, Trực giác, Tâm hồn.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3">
+                        <div class="text-3xl text-slate-300">⚔️ Swords (Kiếm)</div>
+                        <p class="text-xs text-slate-400">Chủ đề:</p>
+                        <p class="text-sm text-slate-200">Suy nghĩ, Quyết định, Xung đột, Giao tiếp, Lý trí.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3">
+                        <div class="text-3xl text-emerald-400">🪙 Pentacles (Tiền)</div>
+                        <p class="text-xs text-slate-400">Chủ đề:</p>
+                        <p class="text-sm text-slate-200">Tiền bạc, Công việc, Vật chất, Học tập, Sự ổn định.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rules for Beginners Box -->
+            <div class="glass-panel p-8 rounded-3xl border border-yellowCream/30 space-y-4 bg-gradient-to-r from-purple-900/60 to-indigo-950/60">
+                <div class="flex items-center space-x-3 text-yellowCream">
+                    <i class="fa-solid fa-lightbulb text-2xl"></i>
+                    <h4 class="text-xl font-bold font-serif">Nguyên Tắc Đọc Tarot Cho Người Mới</h4>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Tarot không quyết định thay bạn. Tarot là công cụ giúp bạn đặt câu hỏi và nhìn vấn đề từ một góc độ khác. Không cần học thuộc ngay 78 lá, hãy làm quen với hình ảnh, biểu tượng và câu chuyện trước. Từ khóa chỉ là điểm khởi đầu, và người hỏi luôn là người đưa ra quyết định cuối cùng cho cuộc đời mình.
+                </p>
+                <div class="pt-4 flex justify-end">
+                    <button onclick="switchTab('cards')" class="px-6 py-2.5 rounded-xl bg-yellowCream text-purple-950 font-bold hover:bg-white transition text-sm">
+                        Khám Phá 78 Lá Bài Ngay →
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 78 LÁ BÀI (CARDS TAB) -->
+        <section id="tab-cards" class="tab-content hidden space-y-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold font-serif text-yellowCream">Hệ Thống 78 Lá Bài Tarot</h2>
+                    <p class="text-slate-300 text-sm mt-1">Tra cứu đầy đủ Major Arcana và Minor Arcana với thông tin chi tiết.</p>
+                </div>
+                <!-- Search & Filters -->
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-64">
+                        <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                        <input type="text" id="card-search" placeholder="Tìm tên lá bài (VD: The Fool)..." oninput="filterCards()" class="w-full pl-10 pr-4 py-2.5 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky">
+                    </div>
+                    <select id="suit-filter" onchange="filterCards()" class="px-4 py-2.5 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky">
+                        <option value="all" class="bg-purple-950">Tất Cả (78 Lá)</option>
+                        <option value="major" class="bg-purple-950">Major Arcana (22)</option>
+                        <option value="wands" class="bg-purple-950">Wands (14)</option>
+                        <option value="cups" class="bg-purple-950">Cups (14)</option>
+                        <option value="swords" class="bg-purple-950">Swords (14)</option>
+                        <option value="pentacles" class="bg-purple-950">Pentacles (14)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div id="cards-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <!-- 4. CHI TIẾT TỪNG LÁ BÀI (CARD DETAIL MODAL / VIEW) -->
+        <section id="tab-card-detail" class="tab-content hidden space-y-6">
+            <button onclick="switchTab('cards')" class="px-4 py-2 rounded-xl glass-panel border border-purple-500/30 text-slate-300 hover:text-white transition flex items-center space-x-2 text-sm">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Quay Lại Danh Sách Lá Bài</span>
+            </button>
+
+            <div id="card-detail-content" class="glass-panel p-6 sm:p-10 rounded-3xl space-y-8">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+        <!-- 5. CÁCH TRẢI BÀI (SPREADS TAB) -->
+        <section id="tab-spreads" class="tab-content hidden space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <h2 class="text-3xl sm:text-4xl font-bold font-serif text-yellowCream">Cách Trải Bài Cơ Bản</h2>
+                <p class="text-slate-300 text-sm sm:text-base">Làm chủ các phương pháp trải bài từ đơn giản đến chuyên sâu để tìm kiếm góc nhìn và lời khuyên chính xác.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 1 Lá -->
+                <div class="glass-panel p-8 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-yellowCream">🃏 Trải Bài 1 Lá (Daily / Quick)</h3>
+                        <span class="px-3 py-1 rounded-full bg-doraSky/20 text-doraSky text-xs font-bold">Cơ Bản</span>
+                    </div>
+                    <p class="text-slate-300 text-sm">Dùng cho thông điệp ngày mới, câu hỏi đơn giản hoặc xin lời khuyên nhanh trong ngày.</p>
+                    <div class="p-4 rounded-xl bg-purple-950/50 border border-purple-500/20 text-xs text-slate-300 space-y-1">
+                        <p><strong class="text-yellowCream">Câu hỏi gợi ý:</strong> "Thông điệp tôi cần suy ngẫm hôm nay là gì?"</p>
+                    </div>
+                    <button onclick="switchTab('online-reading')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-md hover:scale-[1.02] transition">
+                        Thực Hành Trải Bài 1 Lá
+                    </button>
+                </div>
+
+                <!-- 3 Lá -->
+                <div class="glass-panel p-8 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-yellowCream">🃏🃏🃏 Trải Bài 3 Lá (Time Flow)</h3>
+                        <span class="px-3 py-1 rounded-full bg-pinkPastel/20 text-pinkPastel text-xs font-bold">Phổ Biến</span>
+                    </div>
+                    <p class="text-slate-300 text-sm">Khám phá dòng thời gian hoặc mối quan hệ: Quá khứ – Hiện tại – Tương lai hoặc Vấn đề – Trở ngại – Lời khuyên.</p>
+                    <div class="p-4 rounded-xl bg-purple-950/50 border border-purple-500/20 text-xs text-slate-300 space-y-1">
+                        <p><strong class="text-yellowCream">Vị trí:</strong> 1. Quá khứ | 2. Hiện tại | 3. Xu hướng tương lai</p>
+                    </div>
+                    <button onclick="switchTab('online-reading')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-md hover:scale-[1.02] transition">
+                        Thực Hành Trải Bài 3 Lá
+                    </button>
+                </div>
+
+                <!-- 5 Lá -->
+                <div class="glass-panel p-8 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-yellowCream">🃏🃏🃏🃏🃏 Trải Bài 5 Lá (Detailed)</h3>
+                        <span class="px-3 py-1 rounded-full bg-yellowCream/20 text-yellowCream text-xs font-bold">Chuyên Sâu</span>
+                    </div>
+                    <p class="text-slate-300 text-sm">Phân tích sâu tình huống hiện tại, yếu tố tác động, trở ngại, điều nên làm và xu hướng kết quả.</p>
+                    <div class="p-4 rounded-xl bg-purple-950/50 border border-purple-500/20 text-xs text-slate-300 space-y-1">
+                        <p><strong class="text-yellowCream">Vị trí:</strong> 1. Hiện trạng | 2. Tác động | 3. Trở ngại | 4. Hành động | 5. Kết quả</p>
+                    </div>
+                    <button onclick="switchTab('online-reading')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-md hover:scale-[1.02] transition">
+                        Thực Hành Trải Bài 5 Lá
+                    </button>
+                </div>
+
+                <!-- 10 Lá Celtic Cross -->
+                <div class="glass-panel p-8 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-yellowCream">🔮 Celtic Cross (10 Lá)</h3>
+                        <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">Nâng Cao</span>
+                    </div>
+                    <p class="text-slate-300 text-sm">Sơ đồ kinh điển nhất để mổ xẻ toàn diện một vấn đề lớn trong cuộc đời hoặc định hướng tương lai.</p>
+                    <div class="p-4 rounded-xl bg-purple-950/50 border border-purple-500/20 text-xs text-slate-300 space-y-1">
+                        <p><strong class="text-yellowCream">Cấu trúc:</strong> 10 vị trí từ hiện trạng, thách thức, quá khứ, tương lai đến hy vọng và kết quả.</p>
+                    </div>
+                    <button onclick="switchTab('online-reading')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-md hover:scale-[1.02] transition">
+                        Thực Hành Celtic Cross
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. TRẢI BÀI ONLINE (ONLINE READING TAB) -->
+        <section id="tab-online-reading" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <h2 class="text-3xl font-bold font-serif text-yellowCream"><i class="fa-solid fa-wand-magic-sparkles text-pinkPastel mr-2"></i> Trải Bài Online Tương Tác</h2>
+                <p class="text-slate-300 text-sm">Chọn chủ đề, chọn số lá bài và đặt câu hỏi để nhận thông điệp suy ngẫm từ hệ thống Tarot.</p>
+            </div>
+
+            <!-- Reading Setup Panel -->
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-3xl mx-auto space-y-6 border border-purple-500/30">
+                <!-- Step 1: Topic -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-yellowCream">1. Chọn Chủ Đề Trải Bài:</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="setTopic('love')" id="topic-love" class="topic-btn p-4 rounded-2xl glass-panel border-2 border-pink-500/50 text-center font-bold text-pinkPastel hover:bg-pink-500/20 transition flex flex-col items-center justify-center space-y-2">
+                            <i class="fa-solid fa-heart text-2xl"></i>
+                            <span>Tình Yêu</span>
+                        </button>
+                        <button onclick="setTopic('career')" id="topic-career" class="topic-btn p-4 rounded-2xl glass-panel border-2 border-purple-500/20 text-center font-bold text-slate-300 hover:bg-purple-500/20 transition flex flex-col items-center justify-center space-y-2">
+                            <i class="fa-solid fa-briefcase text-2xl"></i>
+                            <span>Sự Nghiệp</span>
+                        </button>
+                        <button onclick="setTopic('study')" id="topic-study" class="topic-btn p-4 rounded-2xl glass-panel border-2 border-purple-500/20 text-center font-bold text-slate-300 hover:bg-purple-500/20 transition flex flex-col items-center justify-center space-y-2">
+                            <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                            <span>Học Tập</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Spread Type -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-yellowCream">2. Chọn Kiểu Trải Bài:</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <button onclick="setSpreadCount(1)" id="spread-1" class="spread-btn p-3 rounded-xl glass-panel border-2 border-doraSky text-center font-bold text-doraSky transition">1 Lá</button>
+                        <button onclick="setSpreadCount(3)" id="spread-3" class="spread-btn p-3 rounded-xl glass-panel border-2 border-purple-500/20 text-center font-bold text-slate-300 transition">3 Lá</button>
+                        <button onclick="setSpreadCount(5)" id="spread-5" class="spread-btn p-3 rounded-xl glass-panel border-2 border-purple-500/20 text-center font-bold text-slate-300 transition">5 Lá</button>
+                        <button onclick="setSpreadCount(10)" id="spread-10" class="spread-btn p-3 rounded-xl glass-panel border-2 border-purple-500/20 text-center font-bold text-slate-300 transition">10 Lá (Celtic)</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Question Input -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-yellowCream">3. Đặt Câu Hỏi Của Bạn:</label>
+                    <input type="text" id="user-question" placeholder="VD: Tôi cần lưu ý điều gì trong công việc tuần này?" class="w-full px-4 py-3 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky">
+                </div>
+
+                <!-- Action Button -->
+                <button onclick="performReading()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-doraSky via-purpleAccent to-pink-500 text-white font-bold text-lg shadow-xl hover:scale-[1.01] transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>RÚT BÀI & NHẬN GIẢI NGHĨA</span>
+                </button>
+            </div>
+
+            <!-- Reading Results Area -->
+            <div id="reading-results" class="hidden space-y-8 pt-6">
+                <div class="text-center space-y-2">
+                    <h3 class="text-2xl font-bold font-serif text-yellowCream">Kết Quả Trải Bài Của Bạn</h3>
+                    <p id="result-meta" class="text-sm text-slate-300"></p>
+                </div>
+
+                <!-- Cards Display Grid -->
+                <div id="drawn-cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-center">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Detailed Interpretations -->
+                <div class="glass-panel p-8 rounded-3xl space-y-6">
+                    <h4 class="text-xl font-bold text-yellowCream font-serif"><i class="fa-solid fa-book-bookmark mr-2"></i> Tổng Hợp Lời Khuyên & Suy Ngẫm</h4>
+                    <div id="reading-summary" class="text-slate-300 text-sm space-y-4 leading-relaxed">
+                        <!-- Summary generated via JS -->
+                    </div>
+                    <div class="pt-4 flex justify-end space-x-4">
+                        <button onclick="saveToJournalFromReading()" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition flex items-center space-x-2">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Lưu Vào Nhật Ký Tarot</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. QUIZ TAROT (QUIZ TAB) -->
+        <section id="tab-quiz" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <h2 class="text-3xl font-bold font-serif text-yellowCream"><i class="fa-solid fa-gamepad text-doraSky mr-2"></i> Thử Thách Tarot (Quiz)</h2>
+                <p class="text-slate-300 text-sm">Kiểm tra kiến thức đọc bài và ghi nhớ ý nghĩa các lá bài qua các câu hỏi thú vị.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-3xl max-w-2xl mx-auto space-y-6 border border-purple-500/30">
+                <div id="quiz-container" class="space-y-6">
+                    <!-- Quiz active view -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. NHẬT KÝ TAROT (JOURNAL TAB) -->
+        <section id="tab-journal" class="tab-content hidden space-y-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold font-serif text-yellowCream"><i class="fa-solid fa-book text-pinkPastel mr-2"></i> Nhật Ký Tarot Của Tôi</h2>
+                    <p class="text-slate-300 text-sm mt-1">Ghi lại các trải bài, cảm xúc và những góc nhìn nhận ra mỗi ngày.</p>
+                </div>
+                <button onclick="openNewJournalModal()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-lg hover:scale-105 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Thêm Ghi Chép Mới</span>
+                </button>
+            </div>
+
+            <!-- Journal Entries List -->
+            <div id="journal-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically populated from localStorage -->
+            </div>
+        </section>
+
+        <!-- 9. TIẾN ĐỘ HỌC TẬP (PROGRESS TAB) -->
+        <section id="tab-progress" class="tab-content hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <h2 class="text-3xl font-bold font-serif text-yellowCream"><i class="fa-solid fa-chart-line text-emerald-400 mr-2"></i> Tiến Độ Học Tập Của Bạn</h2>
+                <p class="text-slate-300 text-sm">Theo dõi hành trình học Tarot và mức độ ghi nhớ kiến thức cá nhân.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-panel p-6 rounded-2xl space-y-2 text-center">
+                    <span class="block text-3xl font-extrabold text-doraSky" id="stat-learned-cards">0/78</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Lá Bài Đã Đánh Dấu Học</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-2 text-center">
+                    <span class="block text-3xl font-extrabold text-pinkPastel" id="stat-readings">0</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Số Lần Trải Bài Online</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-2 text-center">
+                    <span class="block text-3xl font-extrabold text-yellowCream" id="stat-quiz-score">0%</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Điểm Quiz Gần Nhất</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl space-y-2 text-center">
+                    <span class="block text-3xl font-extrabold text-emerald-400" id="stat-journal-count">0</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Ghi Chép Nhật Ký</span>
+                </div>
+            </div>
+
+            <!-- Level / Milestone Card -->
+            <div class="glass-panel p-8 rounded-3xl space-y-6 border border-yellowCream/30">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-yellowCream" id="user-rank-title">Cấp độ: Người Mới Bắt Đầu 🌱</h3>
+                        <p class="text-sm text-slate-300 mt-1" id="user-rank-desc">Hãy hoàn thành việc học các lá bài và làm quiz để nâng cấp danh hiệu!</p>
+                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-yellowCream/20 flex items-center justify-center text-yellowCream text-3xl">
+                        <i class="fa-solid fa-medal"></i>
+                    </div>
+                </div>
+                <div class="w-full bg-purple-950 rounded-full h-4 overflow-hidden border border-purple-500/30">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-doraSky to-purpleAccent h-full transition-all duration-500" style="width: 5%;"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NEW JOURNAL ENTRY MODAL -->
+    <div id="journal-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/80 backdrop-blur-md hidden">
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-lg w-full space-y-6 border border-purple-500/40 relative">
+            <button onclick="closeNewJournalModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold font-serif text-yellowCream">Thêm Ghi Chép Nhật Ký</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ngày Trải Bài</label>
+                    <input type="date" id="j-date" class="w-full px-4 py-2.5 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Câu Hỏi / Vấn Đề</label>
+                    <input type="text" id="j-question" placeholder="VD: Hôm nay năng lượng công việc ra sao?" class="w-full px-4 py-2.5 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Lá Bài Đã Rút</label>
+                    <input type="text" id="j-cards" placeholder="VD: The Fool (Xuôi)" class="w-full px-4 py-2.5 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Suy Ngẫm & Bài Học Nhận Ra</label>
+                    <textarea id="j-notes" rows="3" placeholder="Ghi lại cảm nhận của bạn..." class="w-full px-4 py-2.5 rounded-xl glass-panel border border-purple-500/30 text-white text-sm focus:outline-none focus:border-doraSky"></textarea>
+                </div>
+                <button onclick="saveJournalEntry()" class="w-full py-3 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-lg hover:scale-[1.01] transition">
+                    Lưu Ghi Chép
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM NOTIFICATION MODAL (NO ALERT/CONFIRM) -->
+    <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/80 backdrop-blur-md hidden">
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-sm w-full text-center space-y-4 border border-purple-500/40">
+            <div id="modal-icon" class="w-16 h-16 mx-auto rounded-full bg-doraSky/20 flex items-center justify-center text-doraSky text-3xl">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <h4 id="modal-title" class="text-xl font-bold text-yellowCream">Thông Báo</h4>
+            <p id="modal-message" class="text-slate-300 text-sm">Nội dung thông báo...</p>
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition">Đã Hiểu</button>
+        </div>
+    </div>
+
+    <footer class="glass-panel border-t border-purple-500/20 py-10 mt-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div class="space-y-2">
+                <div class="flex items-center justify-center md:justify-start space-x-3">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-doraSky to-purpleAccent flex items-center justify-center">
+                        <i class="fa-solid fa-crystal-ball text-sm text-yellowCream"></i>
+                    </div>
+                    <span class="text-lg font-bold tracking-wider text-yellowCream font-serif">TAROT JOURNEY</span>
+                </div>
+                <p class="text-xs text-slate-400 max-w-md">"Tarot là công cụ để suy ngẫm và khám phá góc nhìn, không phải lời khẳng định chắc chắn về tương lai." Kết hợp phong cách Doraemon dễ thương.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 text-sm text-slate-300">
+                <button onclick="switchTab('home')" class="hover:text-yellowCream transition">Trang Chủ</button>
+                <button onclick="switchTab('cards')" class="hover:text-yellowCream transition">78 Lá Bài</button>
+                <button onclick="switchTab('spreads')" class="hover:text-yellowCream transition">Trải Bài</button>
+                <button onclick="switchTab('online-reading')" class="hover:text-yellowCream transition">Trải Bài Online</button>
+                <button onclick="switchTab('quiz')" class="hover:text-yellowCream transition">Quiz</button>
+                <button onclick="switchTab('journal')" class="hover:text-yellowCream transition">Nhật Ký</button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Starry Background Generator
+        function initStars() {
+            const container = document.getElementById('stars-container');
+            const count = 50;
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'absolute rounded-full bg-white star-sparkle';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 3 + 1}s`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(star);
+            }
+        }
+
+        // Custom Modal helper (replacing alert/confirm)
+        function showModal(title, message, iconClass = "fa-solid fa-bell") {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('modal-icon').innerHTML = `<i class="${iconClass}"></i>`;
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        // Tab Navigation Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Update header active states
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.dataset.target === tabId) {
+                    btn.classList.add('text-yellowCream', 'bg-white/10');
+                } else {
+                    btn.classList.remove('text-yellowCream', 'bg-white/10');
+                }
+            });
+
+            if(tabId === 'cards') renderCardsGrid(cardsDatabase);
+            if(tabId === 'progress') updateProgressDashboard();
+            if(tabId === 'quiz') initQuiz();
+            if(tabId === 'journal') renderJournalList();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // ================= 78 TAROT CARDS DATABASE =================
+        const cardsDatabase = [
+            // 22 Major Arcana
+            { id: 'm0', name: '0 – The Fool', number: 0, suit: 'major', icon: 'fa-child-reaching', upright: ['Khởi đầu', 'Tự do', 'Khám phá', 'Niềm tin', 'Mạo hiểm'], reversed: ['Bốc đồng', 'Thiếu chuẩn bị', 'Liều lĩnh', 'Sợ bước đi mới'], meaning: 'Biểu thị một khởi đầu mới đầy hứng khởi, niềm tin bước chân vào hành trình chưa biết.', love: 'Cảm giác tò mò, khởi đầu tình cảm mới hoặc sự tự do trong tâm hồn.', career: 'Cơ hội thử nghiệm hướng đi mới hoặc bắt đầu dự án đầy triển vọng.', study: 'Tinh thần khám phá kiến thức mới với sự hào hứng.', advice: 'Hãy dũng cảm bước đi nhưng giữ sự tỉnh táo cần thiết.' },
+            { id: 'm1', name: 'I – The Magician', number: 1, suit: 'major', icon: 'fa-wand-magic', upright: ['Sự sáng tạo', 'Kỹ năng', 'Ý chí', 'Tập trung'], reversed: ['Thiếu tập trung', 'Lợi dụng', 'Tiềm năng chưa khai thác'], meaning: 'Khả năng biến ý tưởng thành hiện thực nhờ vào công cụ và ý chí mạnh mẽ.', love: 'Sự chủ động trong tình cảm, thu hút và gắn kết mạnh mẽ.', career: 'Năng lực làm chủ công việc, kỹ năng giải quyết vấn đề xuất sắc.', study: 'Sự tập trung cao độ và phương pháp học tập hiệu quả.', advice: 'Bạn đã có đủ mọi công cụ cần thiết, hãy hành động ngay.' },
+            { id: 'm2', name: 'II – The High Priestess', number: 2, suit: 'major', icon: 'fa-moon', upright: ['Trực giác', 'Sự tĩnh lặng', 'Bí ẩn', 'Trí tuệ nội tâm'], reversed: ['Bỏ qua trực giác', 'Bí mật lộ diện', 'Cảm xúc mơ hồ'], meaning: 'Lắng nghe tiếng nói bên trong và sự thấu hiểu tĩnh lặng trước khi hành động.', love: 'Mối quan hệ dựa trên sự thấu hiểu ngầm, trực giác mách bảo.', career: 'Cần quan sát kỹ lưỡng bối cảnh trước khi đưa ra quyết định.', study: 'Khả năng nghiên cứu sâu và học hỏi từ trực giác.', advice: 'Hãy lùi lại một bước và lắng nghe trực giác của chính bạn.' },
+            { id: 'm3', name: 'III – The Empress', number: 3, suit: 'major', icon: 'fa-crown', upright: ['Sự dồi dào', 'Nuôi dưỡng', 'Thiên nhiên', 'Sáng tạo'], reversed: ['Phụ thuộc', 'Thiếu chăm sóc', 'Trì trệ'], meaning: 'Năng lượng mẹ thiên nhiên, sự sinh sôi, vun đắp và tận hưởng cuộc sống.', love: 'Tình cảm ấm áp, sự chăm sóc và vun vén cho mối quan hệ.', career: 'Dự án đơm hoa kết trái, môi trường làm việc hỗ trợ và phát triển.', study: 'Sự phát triển thuận lợi nhờ sự chăm chỉ và kiên nhẫn.', advice: 'Hãy nuôi dưỡng bản thân và những ý tưởng sáng tạo của bạn.' },
+            { id: 'm4', name: 'IV – The Emperor', number: 4, suit: 'major', icon: 'fa-chess-king', upright: ['Quyền lực', 'Cấu trúc', 'Sự ổn định', 'Kỷ luật'], reversed: ['Độc đoán', 'Thiếu linh hoạt', 'Kiểm soát quá mức'], meaning: 'Sự thiết lập trật tự, kỷ luật, quy củ và nền tảng vững chắc.', love: 'Sự cam kết vững chắc, cần sự rõ ràng và tôn trọng lẫn nhau.', career: 'Tính kỷ luật cao trong công việc, vai trò lãnh đạo hoặc tổ chức.', study: 'Lập kế hoạch học tập chi tiết và tuân thủ kỷ luật.', advice: 'Hãy xây dựng cấu trúc rõ ràng cho mục tiêu của bạn.' },
+            { id: 'm5', name: 'V – The Hierophant', number: 5, suit: 'major', icon: 'fa-book-bible', upright: ['Truyền thống', 'Học hỏi', 'Niềm tin', 'Cố vấn'], reversed: ['Phá vỡ quy tắc', 'Giáo điều', 'Bảo thủ'], meaning: 'Tìm kiếm sự hướng dẫn từ tri thức truyền thống, hệ thống giá trị và đạo đức.', love: 'Sự cam kết theo chuẩn mực truyền thống, thấu hiểu lẫn nhau.', career: 'Làm việc trong môi trường quy củ, học hỏi từ người đi trước.', study: 'Học hỏi theo giáo trình chuẩn mực và sự hướng dẫn của thầy cô.', advice: 'Hãy tìm kiếm lời khuyên từ những người có kinh nghiệm.' },
+            { id: 'm6', name: 'VI – The Lovers', number: 6, suit: 'major', icon: 'fa-heart', upright: ['Tình yêu', 'Sự hòa hợp', 'Lựa chọn quan trọng', 'Đồng điệu'], reversed: ['Mâu thuẫn giá trị', 'Lựa chọn sai lầm', 'Bất đồng'], meaning: 'Sự kết nối sâu sắc và những ngã rẽ lựa chọn dựa trên giá trị cốt lõi.', love: 'Tình cảm thăng hoa, sự gắn kết tâm hồn và sự lựa chọn cam kết.', career: 'Hợp tác thành công hoặc đứng trước ngã ba đường trong công việc.', study: 'Chọn đúng môn học hoặc phương pháp phù hợp với đam mê.', advice: 'Hãy lắng nghe trái tim khi đứng trước quyết định quan trọng.' },
+            { id: 'm7', name: 'VII – The Chariot', number: 7, suit: 'major', icon: 'fa-shield-halved', upright: ['Ý chí chiến thắng', 'Sự quyết tâm', 'Kiểm soát', 'Tiến bước'], reversed: ['Thiếu định hướng', 'Mất kiểm soát', 'Trở ngại'], meaning: 'Vượt qua nghịch cảnh nhờ kỷ luật bản thân và quyết tâm sắt đá.', love: 'Nỗ lực vun đắp tình cảm vượt qua mọi thử thách khoảng cách.', career: 'Thăng tiến, hoàn thành mục tiêu nhờ sự tập trung cao độ.', study: 'Nỗ lực ôn thi đạt kết quả cao nhờ kỷ luật.', advice: 'Hãy giữ vững tay lái và kiên định với mục tiêu.' },
+            { id: 'm8', name: 'VIII – Strength', number: 8, suit: 'major', icon: 'fa-hand-fist', upright: ['Sức mạnh nội tâm', 'Sự kiên nhẫn', 'Lòng trắc ẩn', 'Kiểm soát êm ái'], reversed: ['Thiếu tự tin', 'Nóng giận', 'Yếu lòng'], meaning: 'Sức mạnh mềm dẻo, đối diện với thử thách bằng lòng kiên nhẫn và tình yêu thương.', love: 'Sự thấu hiểu, bao dung và hóa giải mâu thuẫn bằng sự nhẹ nhàng.', career: 'Giải quyết khủng hoảng công việc bằng sự bình tĩnh và khéo léo.', study: 'Kiên trì chinh phục những môn học khó.', advice: 'Sức mạnh lớn nhất đến từ sự bình tĩnh bên trong bạn.' },
+            { id: 'm9', name: 'IX – The Hermit', number: 9, suit: 'major', icon: 'fa-user-ninja', upright: ['Sự chiêm nghiệm', 'Tìm kiếm nội tâm', 'Cô độc', 'Trí tuệ'], reversed: ['Cô lập', 'Lạc lối', 'Từ chối lời khuyên'], meaning: 'Dừng lại hành trình bên ngoài để quay về soi chiếu nội tâm và tìm chân lý.', love: 'Thời gian cần không gian riêng để hiểu rõ cảm xúc bản thân.', career: 'Tập trung nghiên cứu chuyên sâu, làm việc độc lập.', study: 'Tự học, nghiên cứu tài liệu chiều sâu.', advice: 'Hãy dành thời gian tĩnh lặng để lắng nghe chính mình.' },
+            { id: 'm10', name: 'X – Wheel of Fortune', number: 10, suit: 'major', icon: 'fa-dharmachakra', upright: ['Vận mệnh', 'Cơ hội mới', 'Sự thay đổi', 'Chu kỳ mới'], reversed: ['Vận rủi tạm thời', 'Kháng cự thay đổi', 'Bấp bênh'], meaning: 'Vòng quay cuộc sống không ngừng chuyển động, mang đến cơ hội và bước ngoặt.', love: 'Mối quan hệ bước sang một chương mới đầy bất ngờ.', career: 'Cơ hội thăng tiến hoặc thay đổi môi trường làm việc tích cực.', study: 'Bước ngoặt trong kết quả học tập.', advice: 'Hãy linh hoạt thích ứng với những đổi thay của hoàn cảnh.' },
+            { id: 'm11', name: 'XI – Justice', number: 11, suit: 'major', icon: 'fa-scale-balanced', upright: ['Công bằng', 'Sự thật', 'Trách nhiệm', 'Hệ quả'], reversed: ['Bất công', 'Thiếu trách nhiệm', 'Thiên vị'], meaning: 'Mọi hành động đều dẫn đến kết quả tương xứng; cần sự công tâm và rõ ràng.', love: 'Sự sòng phẳng, rõ ràng trong tình cảm và tôn trọng ranh giới.', career: 'Giải quyết giấy tờ, hợp đồng, pháp lý hoặc đánh giá công bằng.', study: 'Kết quả phản ánh chính xác nỗ lực đã bỏ ra.', advice: 'Hãy hành động dựa trên sự công tâm và tỉnh táo.' },
+            { id: 'm12', name: 'XII – The Hanged Man', number: 12, suit: 'major', icon: 'fa-person', upright: ['Góc nhìn mới', 'Sự hy sinh', 'Buông bỏ', 'Tạm dừng'], reversed: ['Trì hoãn vô ích', 'Cố chấp', 'Hy sinh mù quáng'], meaning: 'Đảo ngược góc nhìn vấn đề, chấp nhận chậm lại để thấu suốt bản chất.', love: 'Cần thay đổi cách nhìn nhận về đối phương thay vì phán xét.', career: 'Dự án tạm chững lại để tái cơ cấu chiến lược.', study: 'Cần thay đổi phương pháp học tập hiệu quả hơn.', advice: 'Hãy thử nhìn nhận vấn đề từ một góc độ hoàn toàn khác.' },
+            { id: 'm13', name: 'XIII – Death', number: 13, suit: 'major', icon: 'fa-skull', upright: ['Sự chuyển hóa', 'Kết thúc một chu kỳ', 'Tái sinh', 'Buông bỏ cái cũ'], reversed: ['Sợ thay đổi', 'Trì hoãn kết thúc', 'Bám víu'], meaning: 'Khép lại một giai đoạn cũ để mở ra cánh cửa mới tiến hóa hơn.', love: 'Khép lại những tổn thương cũ để bắt đầu sự gắn kết chân thành hơn.', career: 'Thay đổi công việc, chuyển đổi mô hình hoặc hướng đi mới.', study: 'Thay đổi hoàn toàn tư duy học tập cũ kỹ.', advice: 'Hãy dũng cảm buông bỏ những điều không còn phù hợp.' },
+            { id: 'm14', name: 'XIV – Temperance', number: 14, suit: 'major', icon: 'fa-glass-water', upright: ['Sự cân bằng', 'Điều độ', 'Kiên nhẫn', 'Sự hòa hợp'], reversed: ['Mất cân bằng', 'Quá đà', 'Thiếu hòa hợp'], meaning: 'Pha trộn các yếu tố cuộc sống một cách hài hòa, ôn hòa và kiên nhẫn.', love: 'Sự thấu hiểu, dung hòa sự khác biệt giữa hai người.', career: 'Phối hợp nhịp nhàng với đồng nghiệp, cân đối thời gian làm việc.', study: 'Phân bổ thời gian ôn tập và nghỉ ngơi hợp lý.', advice: 'Hãy giữ sự ôn hòa và cân bằng trong mọi việc.' },
+            { id: 'm15', name: 'XV – The Devil', number: 15, suit: 'major', icon: 'fa-fire', upright: ['Sự gắn kết độc hại', 'Cạm bẫy', 'Sự phụ thuộc', 'Vật chất'], reversed: ['Thoát khỏi ràng buộc', 'Tự do', 'Nhận thức tỉnh táo'], meaning: 'Nhận diện nhữngói buộc tâm lý, thói quen xấu hoặc sự lệ thuộc vật chất.', love: 'Cảm giác kiểm soát, ghen tuông hoặc phụ thuộc cảm xúc vào đối phương.', career: 'Áp lực công việc ngột ngạt hoặc cảm giác bị ràng buộc.', study: 'Sự lười biếng hoặc vướng vào những cám dỗ sao nhãng.', advice: 'Hãy nhận diện và giải phóng bản thân khỏi những ràng buộc tiêu cực.' },
+            { id: 'm16', name: 'XVI – The Tower', number: 16, suit: 'major', icon: 'fa-bolt', upright: ['Sự sụp đổ bất ngờ', 'Thức tỉnh', 'Phá vỡ ảo tưởng', 'Biến động'], reversed: ['Tránh được thảm họa', 'Sợ hãi thay đổi', 'Âm ỉ khủng hoảng'], meaning: 'Sự sụp đổ của những nền tảng giả tạo để đón nhận sự thật thức tỉnh.', love: 'Sự vỡ lẽ, giải tỏa những hiểu lầm lớn trong mối quan hệ.', career: 'Biến động mạnh trong công việc đòi hỏi sự linh hoạt thích ứng.', study: 'Cú sốc điểm số giúp nhận ra phương pháp học sai lầm.', advice: 'Hãy chấp nhận sự thay đổi để xây dựng nền tảng chân thực hơn.' },
+            { id: 'm17', name: 'XVII – The Star', number: 17, suit: 'major', icon: 'fa-star', upright: ['Hy vọng', 'Sự chữa lành', 'Niềm tin', 'Cảm hứng'], reversed: ['Mất niềm tin', 'Bi quan', 'Thiếu động lực'], meaning: 'Ánh sáng soi đường sau giông bão, mang lại niềm tin và hy vọng tươi sáng.', love: 'Sự chữa lành tổn thương, tình cảm trong sáng và đầy hy vọng.', career: 'Cảm hứng sáng tạo dồi dào, triển vọng tương lai rộng mở.', study: 'Tinh thần học tập hưng phấn, tin tưởng vào khả năng bản thân.', advice: 'Hãy giữ vững niềm tin và hy vọng vào tương lai phía trước.' },
+            { id: 'm18', name: 'XVIII – The Moon', number: 18, suit: 'major', icon: 'fa-moon', upright: ['Sự ảo tưởng', 'Lo lắng', 'Trực giác sâu sắc', 'Vô thức'], reversed: ['Sự thật phơi bày', 'Giảm lo âu', 'Rõ ràng hơn'], meaning: 'Khám phá thế giới vô thức, những nỗi sợ vô hình và sự mơ hồ chưa sáng tỏ.', love: 'Cảm giác bất an, hiểu lầm do thiếu giao tiếp rõ ràng.', career: 'Thông tin chưa rõ ràng trong dự án, cần cẩn trọng.', study: 'Cảm giác mơ hồ, thiếu tập trung do tâm lý lo lắng.', advice: 'Đừng để nỗi sợ hãi vô căn cứ che mờ phán đoán của bạn.' },
+            { id: 'm19', name: 'XIX – The Sun', number: 19, suit: 'major', icon: 'fa-sun', upright: ['Niềm vui', 'Sự thành công', 'Sự sống rạng rỡ', 'Tích cực'], reversed: ['Thành công chậm trễ', 'Thiếu chút rạng rỡ', 'Tiêu cực nhỏ'], meaning: 'Năng lượng viên mãn, niềm vui ngập tràn, sự công nhận và sức sống mãnh liệt.', love: 'Tình cảm hạnh phúc, trong sáng, sự gắn kết tràn ngập tiếng cười.', career: 'Thành công rực rỡ, được tôn vinh và ghi nhận xứng đáng.', study: 'Đạt kết quả học tập xuất sắc, tinh thần vui tươi.', advice: 'Hãy tỏa sáng và tận hưởng niềm vui cuộc sống.' },
+            { id: 'm20', name: 'XX – Judgement', number: 20, suit: 'major', icon: 'fa-bullhorn', upright: ['Sự thức tỉnh', 'Đánh giá lại', 'Gọi mời sứ mệnh', 'Tha thứ'], reversed: ['Tự phán xét quá mức', 'Bỏ lỡ cơ hội', 'Thiếu tự vấn'], meaning: 'Lắng nghe tiếng gọi sâu thẳm bên trong, tổng kết chặng đường để tái sinh.', love: 'Nhìn nhận lại mối quan hệ một cách khách quan và tha thứ.', career: 'Đưa ra quyết định bước ngoặt dựa trên kinh nghiệm quá khứ.', study: 'Nhìn lại quá trình học tập để điều chỉnh chiến lược.', advice: 'Hãy lắng nghe tiếng gọi từ sứ mệnh thực sự của bạn.' },
+            { id: 'm21', name: 'XXI – The World', number: 21, suit: 'major', icon: 'fa-globe', upright: ['Sự hoàn thành', 'Viên mãn', 'Thành tựu', 'Hành trình trọn vẹn'], reversed: ['Thiếu sự khép lại', 'Chậm trễ hoàn thành', 'Cảm giác dở dang'], meaning: 'Khép lại một chu kỳ lớn một cách trọn vẹn, sẵn sàng bước vào không gian mới.', love: 'Mối quan hệ đạt cột mốc viên mãn, gắn bó bền chặt.', career: 'Hoàn thành xuất sắc dự án lớn, gặt hái trái ngọt.', study: 'Tốt nghiệp hoặc hoàn thành xuất sắc mục tiêu học tập.', advice: 'Hãy ăn mừng thành tựu và chuẩn bị cho hành trình mới.' },
+
+            // Minor Arcana - Wands (14 lá)
+            { id: 'w1', name: 'Ace of Wands', number: 1, suit: 'wands', icon: 'fa-wand-magic', upright: ['Cảm hứng mới', 'Năng lượng bùng nổ', 'Khởi đầu sáng tạo'], reversed: ['Thiếu động lực', 'Trì hoãn', 'Năng lượng yếu'], meaning: 'Tia lửa đam mê khởi đầu cho một hành động hoặc dự án mới.', love: 'Sự thu hút mạnh mẽ, cảm xúc mới mẻ bùng cháy.', career: 'Ý tưởng kinh doanh hoặc dự án mới đầy triển vọng.', study: 'Hứng thú học môn học mới.', advice: 'Hãy nắm bắt ngay ngọn lửa đam mê này.' },
+            { id: 'w2', name: '2 of Wands', number: 2, suit: 'wands', icon: 'fa-compass', upright: ['Lên kế hoạch', 'Tầm nhìn tương lai', 'Quyết định hướng đi'], reversed: ['Do dự', 'Thiếu tầm nhìn', 'Kế hoạch đổ vỡ'], meaning: 'Đứng trước ngã rẽ và vạch ra chiến lược dài hạn cho tương lai.', love: 'Định hướng tương lai chung cho mối quan hệ.', career: 'Lên kế hoạch mở rộng quy mô công việc.', study: 'Xác định mục tiêu ôn thi dài hạn.', advice: 'Hãy dũng cảm nhìn xa trông rộng.' },
+            { id: 'w3', name: '3 of Wands', number: 3, suit: 'wands', icon: 'fa-ship', upright: ['Sự mở rộng', 'Chờ đợi kết quả', 'Tầm nhìn toàn cầu'], reversed: ['Sự chậm trễ', 'Thất vọng nhỏ', 'Hạn chế'], meaning: 'Những bước đầu tư bắt đầu cho thấy kết quả và tiềm năng mở rộng.', love: 'Mối quan hệ bước ra thế giới rộng lớn hơn, cùng nhau trải nghiệm.', career: 'Dự án vươn xa, hợp tác quốc tế hoặc mở rộng thị trường.', study: 'Mở rộng phạm vi tài liệu tham khảo.', advice: 'Hãy kiên nhẫn chờ đợi con thuyền thành quả cập bến.' },
+            { id: 'w4', name: '4 of Wands', number: 4, suit: 'wands', icon: 'fa-house-chimney', upright: ['Sự ăn mừng', 'Cộng đồng', 'Ổn định', 'Hạnh phúc gia đình'], reversed: ['Căng thẳng gia đình', 'Mất ổn định tạm thời'], meaning: 'Niềm vui sum họp, sự kiện ăn mừng thành tựu và nền tảng gia đình vững chắc.', love: 'Sự cam kết vững chắc, đám cưới hoặc chung sống hạnh phúc.', career: 'Môi trường làm việc gắn kết, tiệc mừng thành công dự án.', study: 'Hoàn thành kỳ thi với kết quả vui mừng cùng bạn bè.', advice: 'Hãy tận hưởng giây phút hạnh phúc và biết ơn.' },
+            { id: 'w5', name: '5 of Wands', number: 5, suit: 'wands', icon: 'fa-fire-flame-curved', upright: ['Cạnh tranh', 'Xung đột ý kiến', 'Thử thách'], reversed: ['Tránh xung đột', 'Hòa giải', 'Đạt đồng thuận'], meaning: 'Sự cọ sát ý kiến trong môi trường nhóm để tìm ra tiếng nói chung.', love: 'Những bất đồng quan điểm nhỏ cần sự lắng nghe.', career: 'Cạnh tranh nội bộ hoặc tranh biện ý tưởng trong dự án.', study: 'Thử thách trong các kỳ thi cạnh tranh cao.', advice: 'Hãy xem xung đột là cơ hội để học hỏi và hoàn thiện.' },
+            { id: 'w6', name: '6 of Wands', number: 6, suit: 'wands', icon: 'fa-trophy', upright: ['Chiến thắng', 'Sự công nhận', 'Vinh quang', 'Tự hào'], reversed: ['Thiếu sự công nhận', 'Kiêu ngạo', 'Thất bại nhỏ'], meaning: 'Gặt hái thành tựu và nhận được sự tôn vinh, ngưỡng mộ từ cộng đồng.', love: 'Cảm giác tự hào và hạnh phúc trong mối quan hệ.', career: 'Được thăng chức, tuyên dương hoặc thành công vang dội.', study: 'Đạt điểm số cao hoặc giải thưởng học tập.', advice: 'Hãy tự hào về nỗ lực của chính mình.' },
+            { id: 'w7', name: '7 of Wands', number: 7, suit: 'wands', icon: 'fa-mountain', upright: ['Bảo vệ lập trường', 'Kiên cường', 'Vượt áp lực'], reversed: ['Bỏ cuộc', 'Quá tải', 'Mất thế chủ động'], meaning: 'Đứng vững bảo vệ thành quả và quan điểm trước những áp lực xung quanh.', love: 'Bảo vệ tình cảm trước những ý kiến trái chiều từ bên ngoài.', career: 'Bảo vệ ý tưởng sáng tạo trước sự phản biện.', study: 'Kiên cường ôn thi dù áp lực lớn.', advice: 'Hãy giữ vững lập trường chính đáng của bạn.' },
+            { id: 'w8', name: '8 of Wands', number: 8, suit: 'wands', icon: 'fa-bolt', upright: ['Sự nhanh chóng', 'Tin tức dồn dập', 'Hành động tốc độ'], reversed: ['Chậm trễ', 'Hiểu lầm', 'Nôn nóng hỏng việc'], meaning: 'Mọi thứ diễn ra với tốc độ cực nhanh, tin tức hoặc sự kiện dồn dập tới.', love: 'Tin nhắn liên tục, tình cảm tiến triển nhanh chóng.', career: 'Dự án đẩy nhanh tiến độ, giao dịch chốt nhanh.', study: 'Tiếp thu kiến thức nhanh chóng trong thời gian ngắn.', advice: 'Hãy nhanh nhạy bắt nhịp với dòng chảy sự kiện.' },
+            { id: 'w9', name: '9 of Wands', number: 9, suit: 'wands', icon: 'fa-user-shield', upright: ['Sự cảnh giác', 'Bền bỉ cuối cùng', 'Phòng thủ'], reversed: ['Kiệt sức', 'Đa nghi', 'Dễ tổn thương'], meaning: 'Giai đoạn cuối của thử thách, đòi hỏi sự kiên cường dù đã mệt mỏi.', love: 'Cần mở lòng hơn thay vì quá phòng thủ tổn thương.', career: 'Vượt qua giai đoạn nước rút căng thẳng của dự án.', study: 'Cố gắng hết sức trong giai đoạn ôn thi cuối cùng.', advice: 'Bạn đã đi rất gần đích, hãy kiên trì thêm chút nữa.' },
+            { id: 'w10', name: '10 of Wands', number: 10, suit: 'wands', icon: 'fa-weight-hanging', upright: ['Gánh nặng', 'Trách nhiệm lớn', 'Quá tải'], reversed: ['Buông bớt gánh nặng', 'Chia sẻ trách nhiệm'], meaning: 'Mang vác quá nhiều trách nhiệm trên vai gây cảm giác mệt mỏi.', love: 'Gánh vác quá nhiều cảm xúc hoặc lo toan trong mối quan hệ.', career: 'Ôm đồm quá nhiều việc dẫn đến kiệt sức.', study: 'Khối lượng bài vở quá tải.', advice: 'Đừng ngần ngại nhờ sự giúp đỡ và chia sẻ gánh nặng.' },
+            { id: 'w11', name: 'Page of Wands', number: 11, suit: 'wands', icon: 'fa-paper-plane', upright: ['Tin tức mới', 'Sự nhiệt huyết', 'Khám phá', 'Tươi trẻ'], reversed: ['Thiếu kiên nhẫn', 'Sốc nổi', 'Tin tức trì hoãn'], meaning: 'Sứ giả mang đến năng lượng tươi mới, ý tưởng sáng tạo và sự hào hứng.', love: 'Sự tán tỉnh vui vẻ, khởi đầu mối quan hệ đầy tò mò.', career: 'Nhận được cơ hội hoặc thông tin dự án mới mẻ.', study: 'Học hỏi điều mới với sự tò mò trẻ trung.', advice: 'Hãy giữ tinh thần cởi mở và ham học hỏi.' },
+            { id: 'w12', name: 'Knight of Wands', number: 12, suit: 'wands', icon: 'fa-horse', upright: ['Hành động bùng nổ', 'Phiêu lưu', 'Nhiệt huyết cao', 'Táo bạo'], reversed: ['Bốc đồng', 'Hấp tấp', 'Thiếu kiên trì'], meaning: 'Năng lượng hành động mạnh mẽ, sẵn sàng dấn thân vào phiêu lưu mạo hiểm.', love: 'Mối quan hệ nhiệt tình nhưng cần tránh nóng vội.', career: 'Thay đổi táo bạo, thúc đẩy dự án tiến nhanh.', study: 'Học tập với hứng thú cao độ nhưng dễ chán.', advice: 'Hãy kết hợp nhiệt huyết với sự cẩn trọng.' },
+            { id: 'w13', name: 'Queen of Wands', number: 13, suit: 'wands', icon: 'fa-sun', upright: ['Sự tự tin', 'Sức hút', 'Độc lập', 'Nhiệt tình'], reversed: ['Ghen tuông', 'Hống hách', 'Thiếu tự tin'], meaning: 'Biểu tượng của người phụ nữ tự tin, tràn đầy năng lượng tích cực và sức hút.', love: 'Tình cảm nồng nàn, sự quyến rũ và độc lập trong tình yêu.', career: 'Lãnh đạo truyền cảm hứng, phong thái làm việc chuyên nghiệp.', study: 'Tự tin thể hiện kiến thức trong các bài thuyết trình.', advice: 'Hãy tỏa sáng với sự tự tin vốn có của bạn.' },
+            { id: 'w14', name: 'King of Wands', number: 14, suit: 'wands', icon: 'fa-crown', upright: ['Tầm nhìn lãnh đạo', 'Tinh thần doanh nhân', 'Truyền cảm hứng'], reversed: ['Độc đoán', 'Bốc đồng', 'Áp đặt'], meaning: 'Nhà lãnh đạo tầm nhìn, quyết đoán và định hướng chiến lược vĩ mô.', love: 'Sự bảo bọc, che chở và định hướng rõ ràng trong tình cảm.', career: 'Lãnh đạo xuất sắc, xây dựng đế chế kinh doanh.', study: 'Tư duy chiến lược, định hướng nghề nghiệp rõ ràng.', advice: 'Hãy lãnh đạo bằng tầm nhìn và sự công tâm.' },
+
+            // Minor Arcana - Cups (14 lá)
+            { id: 'c1', name: 'Ace of Cups', number: 1, suit: 'cups', icon: 'fa-heart', upright: ['Tình yêu dồi dào', 'Cảm xúc trọn vẹn', 'Trực giác mở lối'], reversed: ['Tổn thương cảm xúc', 'Kìm nén cảm xúc', 'Trống rỗng'], meaning: 'Ly cảm xúc tràn đầy tình yêu thương, sự chữa lành và lòng trắc ẩn.', love: 'Tình yêu mới ngọt ngào, sự gắn kết cảm xúc sâu sắc.', career: 'Công việc mang lại niềm vui và cảm hứng thỏa mãn.', study: 'Học tập với niềm đam mê và tình yêu tri thức.', advice: 'Hãy mở rộng trái tim đón nhận tình yêu thương.' },
+            { id: 'c2', name: '2 of Cups', number: 2, suit: 'cups', icon: 'fa-handshake', upright: ['Sự gắn kết', 'Đối tác ăn ý', 'Tình yêu đôi lứa'], reversed: ['Bất đồng', 'Mất kết nối', 'Rạn nứt'], meaning: 'Sự hòa hợp sâu sắc giữa hai tâm hồn, hợp tác đối tác bền chặt.', love: 'Mối quan hệ yêu đương gắn bó, thấu hiểu và tôn trọng lẫn nhau.', career: 'Hợp tác kinh doanh thành công, đối tác tin cậy.', study: 'Bạn học nhóm ăn ý, hỗ trợ lẫn nhau tiến bộ.', advice: 'Hãy trân trọng những mối liên kết chân thành.' },
+            { id: 'c3', name: '3 of Cups', number: 3, suit: 'cups', icon: 'fa-champagne-glasses', upright: ['Sự sum họp', 'Niềm vui bạn bè', 'Tiệc tùng', 'Hợp tác nhóm'], reversed: ['Cô lập', 'Tụ tập quá đà', 'Mâu thuẫn nhóm'], meaning: 'Niềm vui chia sẻ cùng bạn bè, cộng đồng và sự ăn mừng thành công.', love: 'Tình cảm viên mãn, sự chúc phúc từ bạn bè và người thân.', career: 'Môi trường làm việc đoàn kết, vui vẻ, tiệc tùng công ty.', study: 'Học nhóm hiệu quả, tinh thần đồng đội cao.', advice: 'Hãy dành thời gian vun đắp các mối quan hệ bạn bè.' },
+            { id: 'c4', name: '4 of Cups', number: 4, suit: 'cups', icon: 'fa-face-frown', upright: ['Sự thờ ơ', 'Trầm ngâm', 'Bỏ lỡ cơ hội', 'Chán nản'], reversed: ['Thức tỉnh', 'Hứng thú trở lại', 'Đón nhận cơ hội'], meaning: 'Cảm giác chán nản, thờ ơ trước những cơ hội đang bày ra trước mắt.', love: 'Sự nguội lạnh tạm thời hoặc cảm giác nhàm chán trong mối quan hệ.', career: 'Cảm giác ì ạch, thiếu động lực làm việc.', study: 'Mất tập trung, chán nản với bài vở.', advice: 'Hãy nhìn xung quanh, cơ hội tốt vẫn đang chờ bạn.' },
+            { id: 'c5', name: '5 of Cups', number: 5, suit: 'cups', icon: 'fa-droplet', upright: ['Sự tiếc nuối', 'Nỗi buồn', 'Thất vọng', 'Tập trung mất mát'], reversed: ['Chữa lành', 'Chấp nhận', 'Nhìn về phía trước'], meaning: 'Tập trung vào những chiếc cốc đổ vỡ mà quên mất những chiếc cốc còn đầy phía sau.', love: 'Nỗi buồn do đổ vỡ hoặc hiểu lầm trong tình cảm.', career: 'Thất vọng vì dự án không như ý muốn.', study: 'Buồn vì kết quả thi chưa đạt kỳ vọng.', advice: 'Hãy học cách buông bỏ quá khứ và nhìn về những gì còn lại.' },
+            { id: 'c6', name: '6 of Cups', number: 6, suit: 'cups', icon: 'fa-child', upright: ['Kỷ niệm đẹp', 'Sự hoài niệm', 'Tính hồn nhiên', 'Gặp lại người cũ'], reversed: ['Sống trong quá khứ', 'Thiếu trưởng thành', 'Rời xa quá khứ'], meaning: 'Hơi ấm từ những kỷ niệm tuổi thơ, sự ngây thơ và tình cảm trong sáng.', love: 'Tình cảm hoài niệm, sự chung thủy hoặc gặp lại người xưa.', career: 'Trở lại môi trường quen thuộc hoặc làm việc với đồng nghiệp cũ.', study: 'Nhớ lại những bài học nền tảng cơ bản.', advice: 'Hãy giữ sự trong trẻo và trân trọng ký ức đẹp.' },
+            { id: 'c7', name: '7 of Cups', number: 7, suit: 'cups', icon: 'fa-cloud', upright: ['Ảo tưởng', 'Nhiều lựa chọn', 'Mơ mộng viển vông'], reversed: ['Tỉnh ngộ', 'Lựa chọn thực tế', 'Rõ ràng mục tiêu'], meaning: 'Đứng trước quá nhiều lựa chọn hấp dẫn nhưng dễ sa vào ảo tưởng, thiếu thực tế.', love: 'Lý tưởng hóa đối phương hoặc đứng trước nhiều ngã rẽ tình cảm.', career: 'Nhiều ý tưởng nhưng thiếu thực thi khả thi.', study: 'Lan man nhiều môn học, thiếu tập trung trọng tâm.', advice: 'Hãy tỉnh táo phân biệt giữa ảo tưởng và thực tế.' },
+            { id: 'c8', name: '8 of Cups', number: 8, suit: 'cups', icon: 'fa-person-walking-arrow-right', upright: ['Rời bỏ điều cũ', 'Tìm kiếm ý nghĩa sâu hơn', 'Hành trình nội tâm'], reversed: ['Bám víu vô ích', 'Sợ thay đổi', 'Quay lại chốn cũ'], meaning: 'Dũng cảm rời bỏ những thứ không còn phù hợp để đi tìm chân lý sâu sắc hơn.', love: 'Rời bỏ mối quan hệ độc hại để tìm sự bình yên tâm hồn.', career: 'Từ bỏ công việc không còn mang lại giá trị phát triển.', study: 'Thay đổi định hướng chuyên ngành phù hợp hơn.', advice: 'Đôi khi buông bỏ là cách tốt nhất để trưởng thành.' },
+            { id: 'c9', name: '9 of Cups', number: 9, suit: 'cups', icon: 'fa-face-smile', upright: ['Sự mãn nguyện', 'Ước nguyện thành hiện thực', 'Hạnh phúc cá nhân'], reversed: ['Tự mãn', 'Hạnh phúc bề ngoài', 'Thiếu chiều sâu'], meaning: 'Lá bài "điều ước", biểu thị sự hài lòng, mãn nguyện và hạnh phúc trọn vẹn.', love: 'Tình cảm hạnh phúc, viên mãn đúng như mong đợi.', career: 'Đạt được mục tiêu tài chính và vị trí mong ước.', study: 'Đạt kết quả xuất sắc mỹ mãn.', advice: 'Hãy tận hưởng niềm hạnh phúc xứng đáng của bạn.' },
+            { id: 'c10', name: '10 of Cups', number: 10, suit: 'cups', icon: 'fa-rainbow', upright: ['Hạnh phúc gia đình', 'Sự hòa hợp viên mãn', 'Phước lành'], reversed: ['Bất hòa gia đình', 'Gia đình rạn nứt', 'Thiếu gắn kết'], meaning: 'Hạnh phúc gia đình trọn vẹn, sự bình yên và tình yêu thương bao trùm.', love: 'Mối quan hệ hướng tới hôn nhân, gia đình hạnh phúc viên mãn.', career: 'Môi trường làm việc như ngôi nhà thứ hai ấm áp.', study: 'Được gia đình ủng hộ hết lòng trong học tập.', advice: 'Hãy trân trọng mái ấm và những người thân yêu.' },
+            { id: 'c11', name: 'Page of Cups', number: 11, suit: 'cups', icon: 'fa-fish', upright: ['Tin tức tình cảm', 'Trực giác nhạy bén', 'Sự lãng mạn', 'Sáng tạo'], reversed: ['Mơ mộng hão huyền', 'Cảm xúc bất ổn', 'Non nớt'], meaning: 'Sứ giả mang tin vui tình cảm, khơi gợi trực giác và sự nhạy cảm nghệ thuật.', love: 'Lời tỏ tình ngọt ngào hoặc thông điệp yêu thương bất ngờ.', career: 'Cơ hội làm việc trong lĩnh vực nghệ thuật, sáng tạo.', study: 'Khám phá năng khiếu nghệ thuật, trực giác.', advice: 'Hãy lắng nghe tiếng gọi của trái tim và trí tưởng tượng.' },
+            { id: 'c12', name: 'Knight of Cups', number: 12, suit: 'cups', icon: 'fa-horse-head', upright: ['Lời cầu hôn', 'Sự lãng mạn', 'Theo đuổi đam mê', 'Nhà thơ'], reversed: ['Đa tình', 'Màu mè', 'Thất hứa', 'Cảm xúc thất thường'], meaning: 'Hiệp sĩ lãng mạn theo đuổi tình yêu, lý tưởng và những giá trị nghệ thuật.', love: 'Sự lãng mạn tuyệt vời, lời tỏ tình hoặc cầu hôn chân thành.', career: 'Theo đuổi công việc bằng đam mê và cảm xúc.', study: 'Học tập dựa trên cảm hứng và sự say mê.', advice: 'Hãy sống chân thật với cảm xúc và lãng mạn của bạn.' },
+            { id: 'c13', name: 'Queen of Cups', number: 13, suit: 'cups', icon: 'fa-water', upright: ['Lòng trắc ẩn', 'Sự thấu cảm', 'Trực giác mạnh', 'Chăm sóc cảm xúc'], reversed: ['Phụ thuộc cảm xúc', 'Quá nhạy cảm', 'Thao túng cảm xúc'], meaning: 'Người phụ nữ giàu lòng trắc ẩn, thấu hiểu sâu sắc thế giới nội tâm và cảm xúc.', love: 'Sự bao dung, thấu hiểu và chỗ dựa tinh thần vững chắc.', career: 'Công việc liên quan đến tư vấn, trị liệu, chăm sóc cộng đồng.', study: 'Khả năng thấu hiểu tâm lý và đồng cảm cao.', advice: 'Hãy dùng sự thấu cảm để xoa dịu mọi vấn đề.' },
+            { id: 'c14', name: 'King of Cups', number: 14, suit: 'cups', icon: 'fa-crown', upright: ['Sự bình tĩnh cảm xúc', 'Lòng từ bi', 'Kiểm soát nội tâm'], reversed: ['Kìm nén cảm xúc', 'Thao túng', 'Bùng nổ cảm xúc'], meaning: 'Sự làm chủ cảm xúc tuyệt vời, kết hợp giữa trái tim nhân hậu và trí tuệ bình tĩnh.', love: 'Sự chín chắn trong tình cảm, biết lắng nghe và bảo bọc.', career: 'Lãnh đạo nhân văn, giải quyết khủng hoảng bằng sự điềm đạm.', study: 'Giữ tâm lý vững vàng, bình tĩnh trong mọi kỳ thi.', advice: 'Hãy giữ cái đầu lạnh và trái tim ấm áp.' },
+
+            // Minor Arcana - Swords (14 lá)
+            { id: 's1', name: 'Ace of Swords', number: 1, suit: 'swords', icon: 'fa-sword', upright: ['Sự minh mẫn', 'Ý tưởng đột phá', 'Sự thật', 'Quyết đoán'], reversed: ['Nhầm lẫn', 'Ý tưởng độc hại', 'Thiếu rõ ràng'], meaning: 'Thanh kiếm lý trí cắt xuyên qua mọi màn sương mù mờ ảo, mang lại sự sáng tỏ.', love: 'Giao tiếp thẳng thắn, làm rõ mọi vấn đề hiểu lầm.', career: 'Ý tưởng chiến lược xuất sắc, quyết định sắc sảo.', study: 'Tư duy logic nhạy bén, tiếp thu kiến thức nhanh.', advice: 'Hãy dũng cảm đối mặt với sự thật và đưa ra quyết định minh bạch.' },
+            { id: 's2', name: '2 of Swords', number: 2, suit: 'swords', icon: 'fa-eye-slash', upright: ['Sự bế tắc', 'Trì hoãn quyết định', 'Né tránh sự thật'], reversed: ['Bắt buộc phải chọn', 'Sự thật lộ diện', 'Vỡ lẽ'], meaning: 'Bịt mắt cầm hai thanh kiếm, cố né tránh một quyết định khó khăn.', love: 'Trì hoãn giải quyết mâu thuẫn, né tránh trò chuyện thẳng thắn.', career: 'Kẹt giữa hai lựa chọn công việc, chưa dám quyết định.', study: 'Do dự giữa các phương án ôn thi.', advice: 'Đã đến lúc tháo băng bịt mắt và đưa ra lựa chọn.' },
+            { id: 's3', name: '3 of Swords', number: 3, suit: 'swords', icon: 'fa-heart-crack', upright: ['Nỗi đau tinh thần', 'Sự tổn thương', 'Buồn bã', 'Hiểu lầm lớn'], reversed: ['Chữa lành tổn thương', 'Vượt qua nỗi đau', 'Tha thứ'], meaning: 'Thanh kiếm đâm xuyên trái tim, biểu thị nỗi đau buồn, tổn thương tinh thần.', love: 'Sự tan vỡ, cãi vã gây tổn thương sâu sắc.', career: 'Thất vọng về kết quả dự án hoặc đồng nghiệp.', study: 'Cú sốc điểm số hoặc áp lực tinh thần lớn.', advice: 'Hãy cho phép bản thân buồn và khóc, sau đó bắt đầu chữa lành.' },
+            { id: 's4', name: '4 of Swords', number: 4, suit: 'swords', icon: 'fa-bed', upright: ['Sự nghỉ ngơi', 'Hồi phục năng lượng', 'Tĩnh tâm', 'Thiền định'], reversed: ['Kiệt sức vì hoạt động', 'Căng thẳng kéo dài', 'Buộc phải nghỉ ngơi'], meaning: 'Dừng lại mọi trận chiến để nghỉ ngơi, phục hồi thể lực và trí lực.', love: 'Tạm gác lại tranh cãi để cho nhau không gian bình yên.', career: 'Nghỉ phép, nạp lại năng lượng sau dự án căng thẳng.', study: 'Cần nghỉ ngơi hợp lý để tránh quá tải não bộ.', advice: 'Nghỉ ngơi không phải là từ bỏ, đó là bước chuẩn bị để chiến đấu tiếp.' },
+            { id: 's5', name: '5 of Swords', number: 5, suit: 'swords', icon: 'fa-triangle-exclamation', upright: ['Sự ích kỷ', 'Thắng kiện vô nghĩa', 'Xung đột tổn thương'], reversed: ['Hòa giải', 'Rút lui khỏi tranh chấp', 'Hối hận'], meaning: 'Chiến thắng trong một cuộc tranh cãi nhưng để lại sự tổn thương và cô độc.', love: 'Cố chấp hơn thua trong tình cảm khiến cả hai cùng mệt mỏi.', career: 'Mâu thuẫn lợi ích độc hại chốn công sở.', study: 'Cạnh tranh không lành mạnh.', advice: 'Chiến thắng bằng mọi giá đôi khi là thua cuộc thực sự.' },
+            { id: 's6', name: '6 of Swords', number: 6, suit: 'swords', icon: 'fa-ferry', upright: ['Rời bỏ khó khăn', 'Bình yên phía trước', 'Chuyển biến nhẹ nhàng'], reversed: ['Mang theo hành lý cũ', 'Khó khăn kéo dài', 'Trì hoãn chuyển dịch'], meaning: 'Con thuyền chở ta rời khỏi vùng nước hỗn loạn để đến bến bờ bình yên hơn.', love: 'Vượt qua giai đoạn sóng gió, cùng nhau hướng về tương lai êm đềm.', career: 'Chuyển công tác hoặc bước sang giai đoạn bớt áp lực hơn.', study: 'Vượt qua kỳ thi khó khăn, tâm lý nhẹ nhõm.', advice: 'Hãy kiên nhẫn vượt qua vùng nước đục để đến nơi yên bình.' },
+            { id: 's7', name: '7 of Swords', number: 7, suit: 'swords', icon: 'fa-user-secret', upright: ['Sự mưu mẹo', 'Hành động lén lút', 'Tránh né trách nhiệm'], reversed: ['Thú nhận', 'Sự thật bại lộ', 'Lương tâm cắn rứt'], meaning: 'Hành động khôn khéo, lén lút hoặc tìm lối đi tắt trong công việc.', love: 'Sự thiếu trung thực hoặc giấu giếm cảm xúc trong mối quan hệ.', career: 'Cẩn trọng với sự gian lận hoặc ý đồ xấu từ đồng nghiệp.', study: 'Học tủ, gian lận hoặc thiếu trung thực trong học tập.', advice: 'Sự trung thực luôn là nền tảng bền vững nhất.' },
+            { id: 's8', name: '8 of Swords', number: 8, suit: 'swords', icon: 'fa-lock', upright: ['Cảm giác bế tắc', 'Nạn nhân tự phong', 'Rào cản tâm lý'], reversed: ['Tự do', 'Phá vỡ giới hạn', 'Tự tin trở lại'], meaning: 'Bị trói buộc và vây quanh bởi kiếm, nhưng thực chất nút thắt hoàn toàn có thể tự gỡ.', love: 'Cảm giác ngột ngạt trong mối quan hệ do chính tâm lý tự ti tạo ra.', career: 'Cảm giác kẹt cứng trong công việc, thiếu lối thoát tạm thời.', study: 'Áp lực tâm lý tự tạo khiến việc học trì trệ.', advice: 'Rào cản lớn nhất chính là nỗi sợ hãi trong tâm trí bạn.' },
+            { id: 's9', name: '9 of Swords', number: 9, suit: 'swords', icon: 'fa-moon', upright: ['Lo âu mất ngủ', 'Ác mộng', 'Tự dằn vặt', 'Căng thẳng tột độ'], reversed: ['Giảm lo âu', 'Nhìn nhận thực tế', 'Hy vọng'], meaning: 'Thức dậy giữa đêm vì lo âu, sợ hãi và những suy nghĩ tiêu cực tự hành hạ.', love: 'Lo lắng vô căn cứ về sự tan vỡ của mối quan hệ.', career: 'Áp lực công việc gây mất ngủ, stress nặng.', study: 'Stress trước kỳ thi lớn.', advice: 'Đa số những điều bạn lo sợ hóa ra chỉ tồn tại trong tâm trí.' },
+            { id: 's10', name: '10 of Swords', number: 10, suit: 'swords', icon: 'fa-skull', upright: ['Kết thúc đau đớn', 'Chạm đáy khó khăn', 'Đã qua thời điểm tồi tệ nhất'], reversed: ['Hồi phục', 'Vượt qua khủng hoảng', 'Tái sinh'], meaning: 'Mười thanh kiếm đâm vào lưng, biểu thị sự sụp đổ hoàn toàn chạm đáy.', love: 'Sự chấm dứt đau đớn của một mối quan hệ độc hại.', career: 'Thất bại dự án lớn nhưng đồng thời khép lại chuỗi ngày tồi tệ.', study: 'Trượt môn hoặc điểm kém, nhưng từ đây sẽ đứng dậy làm lại.', advice: 'Khi đã chạm đáy, hướng duy nhất bạn có thể đi là ngẩng đầu bước lên.' },
+            { id: 's11', name: 'Page of Swords', number: 11, suit: 'swords', icon: 'fa-eye', upright: ['Sự tò mò', 'Cảnh giác', 'Ý tưởng sắc sảo', 'Quan sát'], reversed: ['Nói xấu', 'Tin đồn thất thiệt', 'Thiếu chín chắn'], meaning: 'Sứ giả cảnh giác, luôn quan sát, tò mò học hỏi và phân tích mọi vấn đề.', love: 'Tìm hiểu đối phương qua tin nhắn mạng xã hội, sự tò mò lẫn nhau.', career: 'Nghiên cứu thông tin, kiểm tra kỹ lưỡng hợp đồng, văn bản.', study: 'Tinh thần ham học hỏi, đặt nhiều câu hỏi tư duy.', advice: 'Hãy quan sát kỹ lưỡng trước khi đưa ra nhận định.' },
+            { id: 's12', name: 'Knight of Swords', number: 12, suit: 'swords', icon: 'fa-bolt', upright: ['Hành động chớp nhoáng', 'Tư duy sắc bén', 'Quyết liệt', 'Thẳng thắn'], reversed: ['Hấp tấp', 'Lời nói sát thương', 'Hiếu chiến'], meaning: 'Hiệp sĩ phi ngựa xông pha với tốc độ cao, tư duy sắc sảo và lời nói quyết liệt.', love: 'Giao tiếp thẳng thắn đôi khi sắc mỏng gây tổn thương.', career: 'Hành động quyết đoán, giải quyết vấn đề cực kỳ nhanh chóng.', study: 'Tập trung cao độ giải quyết bài tập khó trong thời gian ngắn.', advice: 'Hãy giữ sự sắc bén nhưng uyển chuyển trong giao tiếp.' },
+            { id: 's13', name: 'Queen of Swords', number: 13, suit: 'swords', icon: 'fa-scale-unbalanced', upright: ['Sự lý trí', 'Công tâm', 'Sắc sảo', 'Ranh giới rõ ràng'], reversed: ['Lạnh lùng', 'Cay nghiệt', 'Cô độc'], meaning: 'Người phụ nữ lý trí, sắc sảo, công tâm và thiết lập ranh giới cực kỳ rõ ràng.', love: 'Đặt ranh giới rõ ràng, đề cao sự tôn trọng và lý trí trong tình cảm.', career: 'Đánh giá công việc dựa trên số liệu khách quan, công tâm.', study: 'Tư duy phân tích sắc bén, logic.', advice: 'Hãy kết hợp sự công tâm với lòng trắc ẩn.' },
+            { id: 's14', name: 'King of Swords', number: 14, suit: 'swords', icon: 'fa-crown', upright: ['Trí tuệ minh bạch', 'Công lý', 'Phán đoán sắc bén'], reversed: ['Lạm quyền', 'Độc tài', 'Cứng nhắc'], meaning: 'Bậc thầy trí tuệ, đưa ra phán quyết dựa trên luật lệ, sự thật và lý trí tối cao.', love: 'Yêu cầu sự rõ ràng, minh bạch và nguyên tắc trong mối quan hệ.', career: 'Lãnh đạo bằng quy chế nghiêm ngặt, tư duy chiến lược sắc bén.', study: 'Học luật, triết học hoặc các môn đòi hỏi tư duy đỉnh cao.', advice: 'Hãy hành động dựa trên trí tuệ minh bạch và công lý.' },
+
+            // Minor Arcana - Pentacles (14 lá)
+            { id: 'p1', name: 'Ace of Pentacles', number: 1, suit: 'pentacles', icon: 'fa-coins', upright: ['Cơ hội tài chính', 'Sự thịnh khởi vật chất', 'Khởi đầu vững chắc'], reversed: ['Mất cơ hội tài chính', 'Đầu tư sai lầm', 'Thiếu chuẩn bị'], meaning: 'Đồng tiền vàng mang đến cơ hội vững chắc về tài chính, công việc và vật chất.', love: 'Mối quan hệ mang lại cảm giác an toàn, thực tế và ổn định.', career: 'Cơ hội việc làm mới, tăng lương hoặc khởi nghiệp thành công.', study: 'Đầu tư đúng đắn vào học tập mang lại quả ngọt.', advice: 'Hãy nắm bắt cơ hội vật chất và thực tế trước mắt.' },
+            { id: 'p2', name: '2 of Pentacles', number: 2, suit: 'pentacles', icon: 'fa-infinity', upright: ['Sự uyển chuyển', 'Cân đối tài chính', 'Quản 1 lúc nhiều việc'], reversed: ['Mất cân bằng', 'Quá tải', 'Khủng hoảng tài chính nhỏ'], meaning: 'Tung hứng giữa nhiều công việc và nghĩa vụ tài chính đòi hỏi sự khéo léo.', love: 'Cân đối giữa thời gian yêu đương và công việc cá nhân.', career: 'Xử lý nhiều dự án cùng lúc đòi hỏi sự linh hoạt.', study: 'Cân bằng giữa các môn học khác nhau.', advice: 'Hãy giữ sự linh hoạt và khéo léo để cân đối cuộc sống.' },
+            { id: 'p3', name: '3 of Pentacles', number: 3, suit: 'pentacles', icon: 'fa-hammer', upright: ['Sự hợp tác', 'Tay nghề chuyên môn', 'Làm việc nhóm hiệu quả'], reversed: ['Thiếu hợp tác', 'Chất lượng kém', 'Bất đồng chuyên môn'], meaning: 'Cùng nhau xây dựng công trình dựa trên kỹ năng chuyên môn vững vàng.', love: 'Cùng nhau xây dựng nền tảng tương lai vững chắc cho mối quan hệ.', career: 'Được công nhận tay nghề, làm việc nhóm cực kỳ hiệu quả.', study: 'Làm bài tập nhóm đạt điểm cao nhờ sự phân công ăn ý.', advice: 'Hãy hợp tác chặt chẽ và tôn trọng chuyên môn của nhau.' },
+            { id: 'p4', name: '4 of Pentacles', number: 4, suit: 'pentacles', icon: 'fa-vault', upright: ['Sự gìn giữ', 'Tiết kiệm', 'Kiểm soát tài chính', 'Bảo thủ'], kee: ['Keo kiệt', 'Sợ mất mát', 'Kiểm soát quá mức'], reversed: ['Tiêu xài hoang phí', 'Buông bỏ kiểm soát', 'Rủi ro tài chính'], meaning: 'Ôm chặt đồng tiền, bảo vệ tài sản nhưng dễ rơi vào trạng thái bảo thủ, kìm nén.', love: 'Sự ghen tuông, kiểm soát đối phương hoặc sợ mở lòng.', career: 'An toàn quá mức trong công việc, ngại đổi mới.', study: 'Giấu tài liệu, không muốn chia sẻ kiến thức với người khác.', advice: 'Tiết kiệm là tốt nhưng đừng để sự bủn xỉn kìm hãm sự phát triển.' },
+            { id: 'p5', name: '5 of Pentacles', number: 5, suit: 'pentacles', icon: 'fa-person-walking-with-cane', upright: ['Sự thiếu thốn', 'Khó khăn tài chính', 'Cảm giác cô lập'], reversed: ['Hồi phục tài chính', 'Nhận được sự giúp đỡ', 'Vượt qua khó khăn'], meaning: 'Bước qua giá lạnh, cảm giác cô đơn, thiếu thốn về vật chất hoặc tinh thần.', love: 'Cảm giác bị bỏ rơi hoặc khó khăn chung trong hoàn cảnh.', career: 'Thất nghiệp, khó khăn kinh tế tạm thời.', study: 'Kết quả học tập sụt giảm do áp lực hoàn cảnh.', advice: 'Hãy nhớ rằng luôn có sự giúp đỡ xung quanh nếu bạn biết mở lời.' },
+            { id: 'p6', name: '6 of Pentacles', number: 6, suit: 'pentacles', icon: 'fa-hand-holding-dollar', upright: ['Sự rộng lượng', 'Cho và nhận', 'Hỗ trợ tài chính', 'Công bằng'], reversed: ['Ích kỷ', 'Mượn tiền không trả', 'Lợi dụng lòng tốt'], meaning: 'Sự cân bằng giữa cho đi và nhận lại, giúp đỡ người khó khăn hoặc nhận tài trợ.', love: 'Sự vun đắp sòng phẳng và hỗ trợ lẫn nhau trong tình cảm.', career: 'Nhận được sự hỗ trợ từ sếp/đội ngũ hoặc thưởng xứng đáng.', study: 'Nhận học bổng hoặc sự kèm cặp tận tình.', advice: 'Hãy biết ơn khi nhận và hào phóng khi có thể.' },
+            { id: 'p7', name: '7 of Pentacles', number: 7, suit: 'pentacles', icon: 'fa-seedling', upright: ['Sự kiên nhẫn', 'Đánh giá thành quả đầu tư', 'Chờ cây trổ quả'], reversed: ['Nóng vội', 'Thất vọng vì chậm trễ', 'Đầu tư công cốc'], meaning: 'Nhìn ngắm vườn cây mình đã vun trồng và kiên nhẫn chờ đợi thời gian thu hoạch.', love: 'Đánh giá lại sự tiến triển chậm rãi của mối quan hệ.', career: 'Kiểm tra tiến độ dự án dài hạn, cần sự kiên nhẫn.', study: 'Kiên trì ôn luyện chờ ngày thi cử.', advice: 'Cây cần thời gian để lớn, hãy kiên nhẫn với thành quả của bạn.' },
+            { id: 'p8', name: '8 of Pentacles', number: 8, suit: 'pentacles', icon: 'fa-screwdriver-wrench', upright: ['Sự chăm chỉ', 'Rèn luyện tay nghề', 'Tập trung chi tiết'], reversed: ['Làm việc qua loa', 'Thiếu tập trung', 'Chán ngấy lặp lại'], meaning: 'Miệt mài mài giũa kỹ năng từng chi tiết nhỏ để trở thành bậc thầy chuyên môn.', love: 'Chăm chỉ vun vén từng chi tiết nhỏ cho mối quan hệ.', career: 'Tập trung cao độ vào công việc chuyên môn, tay nghề nâng cao.', study: 'Chăm chỉ giải bài tập, rèn luyện kỹ năng chuyên sâu.', advice: 'Sự chăm chỉ và tỉ mỉ sẽ tạo nên bậc thầy.' },
+            { id: 'p9', name: '9 of Pentacles', number: 9, suit: 'pentacles', icon: 'fa-gem', upright: ['Sự độc lập tài chính', 'Tận hưởng thành quả', 'Sung túc', 'Tự tại'], reversed: ['Phụ thuộc tài chính', 'Thiếu thốn bề ngoài', 'Tiêu hoang'], meaning: 'Tận hưởng cuộc sống sung túc, độc lập và sang trọng do chính tay mình tạo ra.', love: 'Mối quan hệ trưởng thành, độc lập, không dựa dẫm.', career: 'Đạt tự do tài chính, tận hưởng thành quả lao động.', study: 'Tự hào với thành tích tự lực cánh sinh.', advice: 'Hãy tận hưởng thành quả xứng đáng cho sự độc lập của bạn.' },
+            { id: 'p10', name: '10 of Pentacles', number: 10, suit: 'pentacles', icon: 'fa-landmark', upright: ['Sự thịnh vượng gia tộc', 'Di sản', 'Ổn định lâu dài', 'Phúc lộc'], reversed: ['Tranh chấp tài sản', 'Mất mát gia ốc', 'Bất ổn tài chính'], meaning: 'Sự giàu có vững bền truyền đời, gia đình thịnh vượng và nền tảng vũng chắc.', love: 'Xây dựng gia đình sung túc, nền tảng vững chắc lâu dài.', career: 'Doanh nghiệp gia đình phát triển thịnh vượng, bền vững.', study: 'Nền tảng tri thức vững chắc được truyền thừa.', advice: 'Hãy trân trọng và gìn giữ những giá trị bền vững của gia đình.' },
+            { id: 'p11', name: 'Page of Pentacles', number: 11, suit: 'pentacles', icon: 'fa-book-open', upright: ['Cơ hội học tập', 'Sự thiết thực', 'Bắt đầu dự án mới', 'Chăm chỉ'], reversed: ['Thiếu tập trung', 'Học phí đắt đỏ', 'Thiếu thực tế'], meaning: 'Sứ giả mang thông tin về cơ hội học tập, tài chính hoặc dự án thực tế mới.', love: 'Bắt đầu tìm hiểu nghiêm túc, thiết thực về đối phương.', career: 'Nhận cơ hội học nghề, tập sự hoặc dự án thực tế.', study: 'Bắt đầu khóa học mới với sự chăm chỉ, thực tế.', advice: 'Hãy giữ thái độ ham học hỏi và thực tế.' },
+            { id: 'p12', name: 'Knight of Pentacles', number: 12, suit: 'pentacles', icon: 'fa-tractor', upright: ['Sự cẩn trọng', 'Chăm chỉ bền bỉ', 'Đáng tin cậy', 'Chậm mà chắc'], reversed: ['Trì trệ', 'Bảo thủ', 'Lười biếng', 'Thiếu linh hoạt'], meaning: 'Hiệp sĩ chậm rãi nhưng cực kỳ cẩn trọng, đáng tin cậy và bền bỉ tới cùng.', love: 'Tình cảm chậm mà chắc, chân thành và vô cùng đáng tin.', career: 'Làm việc nguyên tắc, quy củ, hoàn thành nhiệm vụ chắc chắn.', study: 'Ôn tập cực kỳ cẩn thận, không bỏ sót chi tiết.', advice: 'Chậm mà chắc là chìa khóa thành công của bạn.' },
+            { id: 'p13', name: 'Queen of Pentacles', number: 13, suit: 'pentacles', icon: 'fa-seedling', upright: ['Sự vun vén', 'Thực tế', 'Nuôi dưỡng', 'Tài chính vững vàng'], reversed: ['Quá lo toan vật chất', 'Bỏ bê cảm xúc', 'Phụ thuộc'], meaning: 'Người phụ nữ vun vén tổ ấm, thực tế, quản lý tài chính xuất sắc và giàu lòng nhân hậu.', love: 'Chăm sóc người yêu bằng những hành động thiết thực, ấm áp.', career: 'Quản lý tài chính xuất sắc, tạo môi trường làm việc ổn định.', study: 'Học tập thực tế, có định hướng rõ ràng.', advice: 'Hãy vun vén cuộc sống bằng sự thiết thực và ấm áp.' },
+            { id: 'p14', name: 'King of Pentacles', number: 14, suit: 'pentacles', icon: 'fa-crown', upright: ['Sự thịnh vượng', 'Thành công vật chất', 'Doanh nhân', 'Bảo bọc'], reversed: ['Tham lam', 'Keo kiệt', 'Độc đoán tài chính'], meaning: 'Bậc thầy quản lý tài chính, doanh nhân thành đạt, mang lại sự thịnh vượng bảo bọc.', love: 'Sự che chở vững chắc về mặt vật chất và an toàn trong tình cảm.', career: 'Đỉnh cao sự nghiệp kinh doanh, tài chính vững mạnh.', study: 'Đạt thành tựu lớn trong các ngành kinh tế, tài chính.', advice: 'Hãy xây dựng sự nghiệp vững chắc và chia sẻ sự thịnh vượng.' }
+        ];
+
+        // Render 78 Cards Grid
+        function renderCardsGrid(cardsToRender) {
+            const grid = document.getElementById('cards-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            cardsToRender.forEach(card => {
+                const isLearned = isCardLearned(card.id);
+                const cardEl = document.createElement('div');
+                cardEl.className = `glass-panel p-4 rounded-2xl cursor-pointer hover:border-doraSky hover:scale-105 transition flex flex-col items-center text-center space-y-3 relative group ${isLearned ? 'border-green-500/50 bg-green-950/20' : ''}`;
+                cardEl.onclick = () => openCardDetail(card.id);
+
+                cardEl.innerHTML = `
+                    <div class="absolute top-2 right-2">
+                        <span class="w-6 h-6 rounded-full ${isLearned ? 'bg-green-500 text-purple-950' : 'bg-purple-900/60 text-slate-400'} flex items-center justify-center text-xs">
+                            <i class="fa-solid ${isLearned ? 'fa-check' : 'fa-bookmark'}"></i>
+                        </span>
+                    </div>
+                    <div class="w-16 h-24 rounded-xl bg-gradient-to-tr from-purple-900 to-indigo-900 border border-purple-500/30 flex items-center justify-center shadow-lg group-hover:shadow-purple-500/50 transition">
+                        <i class="fa-solid ${card.icon} text-2xl text-yellowCream"></i>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-semibold text-doraSky uppercase tracking-wider">${card.suit}</span>
+                        <h4 class="text-sm font-bold text-slate-100 mt-1">${card.name}</h4>
+                    </div>
+                `;
+                grid.appendChild(cardEl);
+            });
+        }
+
+        function filterCards() {
+            const search = document.getElementById('card-search').value.toLowerCase();
+            const suit = document.getElementById('suit-filter').value;
+
+            let filtered = cardsDatabase.filter(card => {
+                const matchSearch = card.name.toLowerCase().includes(search) || card.upright.some(k => k.toLowerCase().includes(search));
+                let matchSuit = true;
+                if(suit === 'major') matchSuit = card.suit === 'major';
+                else if(suit === 'wands') matchSuit = card.suit === 'wands';
+                else if(suit === 'cups') matchSuit = card.suit === 'cups';
+                else if(suit === 'swords') matchSuit = card.suit === 'swords';
+                else if(suit === 'pentacles') matchSuit = card.suit === 'pentacles';
+                return matchSearch && matchSuit;
+            });
+
+            renderCardsGrid(filtered);
+        }
+
+        // Card Detail View
+        function openCardDetail(cardId) {
+            const card = cardsDatabase.find(c => c.id === cardId);
+            if(!card) return;
+
+            const isLearned = isCardLearned(card.id);
+            const content = document.getElementById('card-detail-content');
+            content.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="w-full md:w-1/3 flex flex-col items-center space-y-4">
+                        <div class="w-48 h-72 rounded-2xl bg-gradient-to-tr from-purple-900 via-indigo-900 to-blue-900 border-2 border-yellowCream/40 flex flex-col items-center justify-center p-6 shadow-2xl relative">
+                            <div class="absolute top-3 left-3 text-yellowCream font-bold text-sm">${card.number}</div>
+                            <i class="fa-solid ${card.icon} text-5xl text-yellowCream mb-4"></i>
+                            <h3 class="text-xl font-bold font-serif text-white text-center">${card.name}</h3>
+                            <span class="text-xs text-doraSky uppercase tracking-widest mt-2">${card.suit}</span>
+                        </div>
+                        <button onclick="toggleCardLearned('${card.id}')" class="w-full py-3 rounded-xl ${isLearned ? 'bg-green-600 hover:bg-green-500' : 'bg-purple-600 hover:bg-purple-500'} text-white font-bold text-sm shadow-lg transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid ${isLearned ? 'fa-check' : 'fa-bookmark'}"></i>
+                            <span>${isLearned ? 'Đã Học Xong (Hủy)' : 'Đánh Dấu Đã Học'}</span>
+                        </button>
+                    </div>
+
+                    <div class="w-full md:w-2/3 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold text-doraSky uppercase tracking-wider">Chi Tiết Lá Bài</span>
+                            <h2 class="text-3xl font-bold font-serif text-yellowCream mt-1">${card.name}</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-2xl bg-purple-950/60 border border-purple-500/20 space-y-2">
+                                <h4 class="text-xs font-bold text-emerald-400 uppercase">Từ Khóa Xuôi</h4>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${card.upright.map(k => `<span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 text-xs">${k}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-purple-950/60 border border-purple-500/20 space-y-2">
+                                <h4 class="text-xs font-bold text-pink-400 uppercase">Từ Khóa Ngược</h4>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${card.reversed.map(k => `<span class="px-2.5 py-1 rounded-lg bg-pink-500/20 text-pink-300 text-xs">${k}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <div>
+                                <strong class="text-yellowCream block mb-1">📖 Ý Nghĩa Tổng Quát:</strong>
+                                <p>${card.meaning}</p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                                <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-500/20">
+                                    <strong class="text-pinkPastel block text-xs mb-1">❤️ Tình Yêu:</strong>
+                                    <p class="text-xs">${card.love}</p>
+                                </div>
+                                <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-500/20">
+                                    <strong class="text-doraSky block text-xs mb-1">💼 Sự Nghiệp:</strong>
+                                    <p class="text-xs">${card.career}</p>
+                                </div>
+                                <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-500/20">
+                                    <strong class="text-yellowCream block text-xs mb-1">📚 Học Tập:</strong>
+                                    <p class="text-xs">${card.study}</p>
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gradient-to-r from-purple-900/40 to-indigo-950/40 border border-purple-500/30">
+                                <strong class="text-yellowCream block mb-1">💡 Lời Khuyên:</strong>
+                                <p class="text-xs">${card.advice}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            switchTab('card-detail');
+        }
+
+        // ================= ONLINE READING & SPREADS LOGIC =================
+        let currentTopic = 'love';
+        let currentSpreadCount = 1;
+        let lastDrawnResult = null;
+
+        function setTopic(topic) {
+            currentTopic = topic;
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.classList.remove('border-pink-500', 'border-doraSky', 'border-yellowCream', 'bg-pink-500/20');
+                btn.classList.add('border-purple-500/20');
+            });
+            const activeBtn = document.getElementById(`topic-${topic}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('border-purple-500/20');
+                activeBtn.classList.add('border-pink-500', 'bg-pink-500/20');
+            }
+        }
+
+        function setSpreadCount(count) {
+            currentSpreadCount = count;
+            document.querySelectorAll('.spread-btn').forEach(btn => {
+                btn.classList.remove('border-doraSky', 'bg-doraSky/20');
+                btn.classList.add('border-purple-500/20');
+            });
+            const activeBtn = document.getElementById(`spread-${count}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('border-purple-500/20');
+                activeBtn.classList.add('border-doraSky', 'bg-doraSky/20');
+            }
+        }
+
+        function performReading() {
+            const question = document.getElementById('user-question').value.trim() || "Thông điệp cho tôi hôm nay là gì?";
+            
+            // Randomly draw unique cards
+            let available = [...cardsDatabase];
+            let drawn = [];
+            for(let i=0; i<currentSpreadCount; i++) {
+                if(available.length === 0) break;
+                const index = Math.floor(Math.random() * available.length);
+                const card = available.splice(index, 1)[0];
+                const isReversed = Math.random() < 0.3; // 30% chance reversed
+                drawn.push({ card, isReversed, position: i + 1 });
+            }
+
+            lastDrawnResult = { topic: currentTopic, question, drawn, date: new Date().toLocaleDateString('vi-VN') };
+
+            // Render Results
+            const resultsContainer = document.getElementById('reading-results');
+            resultsContainer.classList.remove('hidden');
+
+            document.getElementById('result-meta').innerText = `Chủ đề: ${currentTopic.toUpperCase()} | Câu hỏi: "${question}"`;
+
+            const cardsGrid = document.getElementById('drawn-cards-container');
+            cardsGrid.innerHTML = '';
+
+            const positionNames = {
+                1: ['1 Lá: Thông Điệp Chính'],
+                3: ['1. Quá Khứ', '2. Hiện Tại', '3. Tương Lai'],
+                5: ['1. Hiện Trạng', '2. Tác Động', '3. Trở Ngại', '4. Hành Động', '5. Kết Quả'],
+                10: ['1. Hiện Tại', '2. Thách Thức', '3. Nền Tảng', '4. Quá Khứ', '5. Hướng Tới', '6. Tương Lai', '7. Bản Thân', '8. Môi Trường', '9. Hy Vọng', '10. Kết Quả Xu Hướng']
+            };
+
+            drawn.forEach((item, idx) => {
+                const posTitle = positionNames[currentSpreadCount]?.[idx] || `Vị trí ${idx+1}`;
+                const cardEl = document.createElement('div');
+                cardEl.className = 'glass-panel p-4 rounded-2xl flex flex-col items-center text-center space-y-3 relative';
+                cardEl.innerHTML = `
+                    <span class="px-2.5 py-0.5 rounded-full bg-purple-900 text-yellowCream text-xs font-bold">${posTitle}</span>
+                    <div class="w-24 h-36 rounded-xl bg-gradient-to-tr from-purple-950 to-indigo-900 border border-purple-500/30 flex flex-col items-center justify-center p-2 shadow-lg ${item.isReversed ? 'rotate-180' : ''}">
+                        <i class="fa-solid ${item.card.icon} text-3xl text-yellowCream mb-2"></i>
+                        <span class="text-[10px] font-bold text-white">${item.card.name}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-semibold ${item.isReversed ? 'text-pink-400' : 'text-emerald-400'}">${item.isReversed ? 'Ngược (Reversed)' : 'Xuôi (Upright)'}</span>
+                    </div>
+                `;
+                cardsGrid.appendChild(cardEl);
+            });
+
+            // Generate Summary Interpretation
+            const summaryEl = document.getElementById('reading-summary');
+            let summaryHTML = `<p><strong>Phân tích chủ đề ${currentTopic.toUpperCase()}:</strong></p>`;
+            drawn.forEach((item, idx) => {
+                const posTitle = positionNames[currentSpreadCount]?.[idx] || `Vị trí ${idx+1}`;
+                const keywords = item.isReversed ? item.card.reversed.join(', ') : item.card.upright.join(', ');
+                let topicSpecific = item.card.meaning;
+                if(currentTopic === 'love') topicSpecific = item.card.love;
+                else if(currentTopic === 'career') topicSpecific = item.card.career;
+                else if(currentTopic === 'study') topicSpecific = item.card.study;
+
+                summaryHTML += `
+                    <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/20 space-y-1">
+                        <strong class="text-yellowCream">${posTitle} – ${item.card.name} (${item.isReversed ? 'Ngược' : 'Xuôi'}):</strong>
+                        <p class="text-xs text-slate-300"><em>Từ khóa:</em> ${keywords}</p>
+                        <p class="text-xs text-slate-300"><em>Góc nhìn:</em> ${topicSpecific}</p>
+                    </div>
+                `;
+            });
+            summaryHTML += `<p class="pt-2 text-yellowCream text-xs">💡 <strong>Lời khuyên chung:</strong> ${drawn[0].card.advice}</p>`;
+            summaryEl.innerHTML = summaryHTML;
+
+            // Save reading count to progress
+            incrementReadingsCount();
+
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ================= QUIZ LOGIC =================
+        const quizQuestions = [
+            { question: "Lá bài số 0 trong Major Arcana là gì?", options: ["The Magician", "The Fool", "The World", "The High Priestess"], answer: 1 },
+            { question: "Bộ nào trong Minor Arcana đại diện cho cảm xúc và tình yêu?", options: ["Wands", "Swords", "Cups", "Pentacles"], answer: 2 },
+            { question: "Trải bài 10 lá kinh điển được gọi là gì?", options: ["Celtic Cross", "Daily Spread", "Time Flow", "Love Oracle"], answer: 0 },
+            { question: "Lá bài The Sun (Mặt Trời) thường mang ý nghĩa gì?", options: ["Sự sụp đổ", "Niềm vui và thành công", "Sự cô độc", "Lo âu mất ngủ"], answer: 1 },
+            { question: "Trong Tarot, khi một lá bài xuất hiện ở vị trí ngược (Reversed), điều đó có nghĩa gì?", options: ["Tuyệt đối xui xẻo", "Năng lượng bị kìm nén hoặc cần nhìn nhận góc độ khác", "Lá bài không có giá trị", "Chắc chắn sai sự thật"], answer: 1 }
+        ];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        function initQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const container = document.getElementById('quiz-container');
+            if(!container) return;
+
+            if(currentQuizIndex >= quizQuestions.length) {
+                const percent = Math.round((quizScore / quizQuestions.length) * 100);
+                saveQuizScore(percent);
+                container.innerHTML = `
+                    <div class="text-center space-y-4 py-6">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-yellowCream/20 flex items-center justify-center text-yellowCream text-4xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold font-serif text-yellowCream">Hoàn Thành Thử Thách!</h3>
+                        <p class="text-slate-300 text-sm">Bạn đã trả lời đúng <strong class="text-yellowCream">${quizScore}/${quizQuestions.length}</strong> câu hỏi (${percent}%).</p>
+                        <button onclick="initQuiz()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-doraSky to-purpleAccent text-white font-bold text-sm shadow-lg transition">
+                            Làm Lại Quiz
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = quizQuestions[currentQuizIndex];
+            container.innerHTML = `
+                <div class="flex justify-between items-center text-xs text-slate-400 font-semibold">
+                    <span>Câu hỏi ${currentQuizIndex + 1}/${quizQuestions.length}</span>
+                    <span>Điểm: ${quizScore}</span>
+                </div>
+                <h3 class="text-xl font-bold text-yellowCream">${q.question}</h3>
+                <div class="space-y-3 pt-2">
+                    ${q.options.map((opt, idx) => `
+                        <button onclick="checkQuizAnswer(${idx}, ${q.answer})" class="w-full text-left p-4 rounded-xl glass-panel border border-purple-500/30 hover:border-doraSky hover:bg-white/10 transition text-sm text-slate-200">
+                            ${String.fromCharCode(65 + idx)}. ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function checkQuizAnswer(selected, correct) {
+            if(selected === correct) {
+                quizScore++;
+                showModal("Chính xác! 🎉", "Bạn đã trả lời đúng câu hỏi này.", "fa-solid fa-check-circle text-green-400");
+            } else {
+                showModal("Chưa chính xác!", "Hãy ôn lại kiến thức các lá bài nhé.", "fa-solid fa-triangle-exclamation text-pink-400");
+            }
+            currentQuizIndex++;
+            renderQuizQuestion();
+        }
+
+        // ================= LOCALSTORAGE & PROGRESS & JOURNAL =================
+        function getLearnedCards() {
+            try { return JSON.parse(localStorage.getItem('tarot_learned_cards')) || []; } catch(e) { return []; }
+        }
+        function isCardLearned(cardId) {
+            return getLearnedCards().includes(cardId);
+        }
+        function toggleCardLearned(cardId) {
+            let learned = getLearnedCards();
+            if(learned.includes(cardId)) {
+                learned = learned.filter(id => id !== cardId);
+            } else {
+                learned.push(cardId);
+            }
+            localStorage.setItem('tarot_learned_cards', JSON.stringify(learned));
+            openCardDetail(cardId); // Refresh view
+        }
+
+        function getReadingsCount() {
+            return parseInt(localStorage.getItem('tarot_readings_count') || '0');
+        }
+        function incrementReadingsCount() {
+            let count = getReadingsCount() + 1;
+            localStorage.setItem('tarot_readings_count', count.toString());
+        }
+
+        function getLatestQuizScore() {
+            return parseInt(localStorage.getItem('tarot_quiz_score') || '0');
+        }
+        function saveQuizScore(score) {
+            localStorage.setItem('tarot_quiz_score', score.toString());
+        }
+
+        function getJournalEntries() {
+            try { return JSON.parse(localStorage.getItem('tarot_journal_entries')) || []; } catch(e) { return []; }
+        }
+        function saveJournalEntry() {
+            const date = document.getElementById('j-date').value || new Date().toLocaleDateString('vi-VN');
+            const question = document.getElementById('j-question').value.trim() || 'Không có tiêu đề';
+            const cards = document.getElementById('j-cards').value.trim() || 'Không rõ';
+            const notes = document.getElementById('j-notes').value.trim() || '';
+
+            let entries = getJournalEntries();
+            entries.unshift({ date, question, cards, notes });
+            localStorage.setItem('tarot_journal_entries', JSON.stringify(entries));
+
+            closeNewJournalModal();
+            renderJournalList();
+            showModal("Thành công! 📚", "Đã lưu ghi chép vào nhật ký Tarot.", "fa-solid fa-book-bookmark text-yellowCream");
+        }
+
+        function saveToJournalFromReading() {
+            if(!lastDrawnResult) return;
+            const cardNames = lastDrawnResult.drawn.map(d => `${d.card.name} (${d.isReversed ? 'Ngược' : 'Xuôi'})`).join(', ');
+            let entries = getJournalEntries();
+            entries.unshift({
+                date: lastDrawnResult.date,
+                question: lastDrawnResult.question,
+                cards: cardNames,
+                notes: `Chủ đề: ${lastDrawnResult.topic.toUpperCase()}. Trải bài tự động online.`
+            });
+            localStorage.setItem('tarot_journal_entries', JSON.stringify(entries));
+            showModal("Đã lưu! 🔮", "Kết quả trải bài đã được ghi lại vào nhật ký.", "fa-solid fa-floppy-disk text-yellowCream");
+        }
+
+        function renderJournalList() {
+            const list = document.getElementById('journal-list');
+            if(!list) return;
+            const entries = getJournalEntries();
+            document.getElementById('stat-journal-count').innerText = entries.length;
+
+            if(entries.length === 0) {
+                list.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-400">Chưa có ghi chép nhật ký nào. Hãy thêm ghi chép mới!</div>`;
+                return;
+            }
+
+            list.innerHTML = entries.map((e, idx) => `
+                <div class="glass-panel p-6 rounded-2xl space-y-3 relative">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-doraSky">${e.date}</span>
+                        <button onclick="deleteJournalEntry(${idx})" class="text-slate-500 hover:text-pink-400"><i class="fa-solid fa-trash text-xs"></i></button>
+                    </div>
+                    <h4 class="text-base font-bold text-yellowCream">Q: "${e.question}"</h4>
+                    <p class="text-xs text-slate-300"><strong class="text-pinkPastel">Lá bài:</strong> ${e.cards}</p>
+                    <p class="text-xs text-slate-300 leading-relaxed bg-purple-950/40 p-3 rounded-xl border border-purple-500/20">${e.notes}</p>
+                </div>
+            `).join('');
+        }
+
+        function deleteJournalEntry(idx) {
+            let entries = getJournalEntries();
+            entries.splice(idx, 1);
+            localStorage.setItem('tarot_journal_entries', JSON.stringify(entries));
+            renderJournalList();
+        }
+
+        function openNewJournalModal() {
+            document.getElementById('j-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('j-question').value = '';
+            document.getElementById('j-cards').value = '';
+            document.getElementById('j-notes').value = '';
+            document.getElementById('journal-modal').classList.remove('hidden');
+        }
+        function closeNewJournalModal() {
+            document.getElementById('journal-modal').classList.add('hidden');
+        }
+
+        function updateProgressDashboard() {
+            const learnedCount = getLearnedCards().length;
+            const readingsCount = getReadingsCount();
+            const quizScore = getLatestQuizScore();
+            const journalCount = getJournalEntries().length;
+
+            document.getElementById('stat-learned-cards').innerText = `${learnedCount}/78`;
+            document.getElementById('stat-readings').innerText = readingsCount;
+            document.getElementById('stat-quiz-score').innerText = `${quizScore}%`;
+            document.getElementById('stat-journal-count').innerText = journalCount;
+
+            const percent = Math.min(Math.round((learnedCount / 78) * 100), 100);
+            document.getElementById('progress-bar-fill').style.width = `${Math.max(percent, 5)}%`;
+
+            let rankTitle = "Người Mới Bắt Đầu 🌱";
+            let rankDesc = "Hãy học thêm các lá bài và thực hành trải bài để nâng cao cấp độ!";
+            if(learnedCount >= 50) {
+                rankTitle = "Thực Hành Tarot Chuyên Sâu ✨";
+                rankDesc = "Bạn đã nắm vững phần lớn hệ thống Tarot và có khả năng đọc bài linh hoạt!";
+            } else if(learnedCount >= 20) {
+                rankTitle = "Người Đọc Bài Cơ Bản 🃏";
+                rankDesc = "Bạn đang tiến bộ rất nhanh trên hành trình khám phá biểu tượng Tarot.";
+            } else if(learnedCount >= 5) {
+                rankTitle = "Khám Phá Tarot 🔮";
+                rankDesc = "Bạn đã có bước khởi đầu tuyệt vời vào thế giới Tarot.";
+            }
+
+            document.getElementById('user-rank-title').innerText = `Cấp độ: ${rankTitle}`;
+            document.getElementById('user-rank-desc').innerText = rankDesc;
+        }
+
+        // On window load
+        window.onload = function() {
+            initStars();
+            renderCardsGrid(cardsDatabase);
+        };
+    </script>
+</body>
+</html>
